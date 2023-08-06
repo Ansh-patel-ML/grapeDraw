@@ -1,0 +1,62 @@
+.header {
+  font-family: "Roboto Mono", monospace;
+  padding: 12px 20px;
+  border-bottom: 1px solid #292929;
+}
+
+.header--container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header--grapeDraw {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #000;
+  border-radius: 13px;
+  padding: 0px 15px 0px 10px;
+  box-shadow: -2.7px -2.7px #000;
+}
+
+.header--grapeDraw > h1 {
+  font-size: 21px;
+  color: #292929;
+  margin: 0px;
+  font-weight: bold;
+}
+
+.header--connect {
+  background-color: #292929;
+  color: #fff;
+  padding: 13px 30px;
+  border-radius: 13px;
+  cursor: pointer;
+  border: 1px solid #292929;
+  font-family: "Roboto Mono", monospace;
+  transition: background-color 0.3s ease;
+}
+
+.header--connect:hover {
+  background-color: #fff;
+  color: #292929;
+}
+
+.show {
+  visibility: visible;
+}
+
+.hide {
+  display: none;
+}
+
+.header--user--info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header--user--info > h4 {
+  font-weight: 400;
+}

@@ -1,0 +1,37 @@
+.ConnectWallet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  box-shadow: 3px 3px #292929;
+  background-color: #cdcded;
+  flex-grow: 1;
+  margin-bottom: 10px;
+  
+  gap: 16px;
+  padding: 24px;
+}
+
+.ConnectWallet h4:first-child {
+  font-weight: 400;
+}
+
+.ConnectWallet--Button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  background-color: #292929;
+  color: white;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.ConnectWallet--Button:hover {
+  background-color: #fff;
+  color: #292929;
+  cursor: pointer;
+}

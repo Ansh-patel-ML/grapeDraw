@@ -1,0 +1,86 @@
+.stats--card {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 1em;
+  box-shadow: 5px 5px black;
+}
+
+.stats--header {
+  font-weight: bold;
+}
+
+.stats--card hr {
+  margin: 0.7rem 0;
+}
+
+.stats--batch--no {
+  font-weight: bold;
+}
+
+.stats--batch--tickets {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.7rem;
+}
+
+.stats--coins {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stats--coin--position {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  height: 100%;
+  width: 33.33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.stats--coin--position:hover {
+  outline: 1px solid black;
+  border-radius: 10px;
+  background-color: #fffbd5;
+}
+
+.stats--payout {
+  display: flex;
+  align-items: center;
+  color: blue;
+  font-size: larger;
+  gap: 2%;
+  font-weight: 400;
+  margin-top: 0.7rem;
+  cursor: pointer;
+}
+
+.stats--batch--tickets p {
+  font-weight: bold;
+}
+
+.stats--batch--tickets .stats--batch--tickets--div {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.stats--button {
+  cursor:pointer;
+  margin-top: 1rem;
+  font-size: large;
+  width: 100%;
+  padding: 10px 0px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  background-color: #292929;
+  color: white;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.stats--button:hover {
+  background-color: #fff;
+  color: #292929;
+}

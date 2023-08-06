@@ -1,0 +1,56 @@
+.Footer {
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto Mono", monospace;
+  padding: 10px;
+}
+
+.Footer--sectionOne {
+  background-color: #cdcded;
+  padding: 20px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  box-shadow: 5px 5px #292929;
+}
+
+.Footer--sectionOne > h4 {
+  margin: 0px;
+  font-weight: 600;
+}
+
+.Footer--Icon--Container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.Footer--Icon--Container > img:hover {
+  cursor: pointer;
+}
+
+.Footer--sectionTwo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 40px;
+  padding-left: 10px;
+}
+
+.Footer--sectionTwo p {
+  color: #666666;
+}
+
+.Footer--links--container {
+  display: flex;
+  gap: 35px;
+}
+
+.Footer--links--container > a {
+  text-decoration: none;
+  color: #0038ff;
+}
+
+.Footer--links--container > a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,98 @@
+.ShowRewards--Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Roboto Mono", monospace;
+  border: 1px solid #292929;
+  border-radius: 20px;
+  box-shadow: 5px 5px #292929;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.ShowRewards--Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+  padding: 0px 0px 20px 0px;
+  border-bottom: 1px solid #292929;
+}
+
+.ShowRewards--Header h4:first-child {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.Blue {
+  color: #0038ff;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.Grey {
+  color: #666666;
+  font-weight: 400;
+}
+
+.ShowRewards--Main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.Notification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Notification h4:first-child {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.ShowRewards--Notification--Container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.ShowRewards--Notification--Container::-webkit-scrollbar {
+  width: 10px;
+}
+.ShowRewards--Notification--Container::-webkit-scrollbar-track {
+  background: #FFF;
+}
+.ShowRewards--Notification--Container::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #292929;
+  border-bottom: 3px solid black;
+  border-right: 3px solid black;
+}
+.ShowRewards--Notification--Container::-webkit-scrollbar-button {
+  height: 0px;
+}
+
+.ShowRewards--Footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.ShowRewards--Footer h4:first-child {
+  color: #666666;
+  font-weight: 400;
+}
+
+.ShowRewards--Footer div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

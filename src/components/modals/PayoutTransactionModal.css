@@ -1,0 +1,30 @@
+.payout--body {
+  border: 1px solid black;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: -3px -3px black;
+  margin-top: 1%;
+}
+
+.payout--time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+.payout--time p {
+  font-weight: bold;
+}
+
+.payout--address {
+  color: blue;
+  font-size: smaller;
+}
+
+.payout--completed {
+  display: flex;
+  align-items: center;
+  gap : 0.5rem;
+  color: rgb(107, 109, 110);
+}

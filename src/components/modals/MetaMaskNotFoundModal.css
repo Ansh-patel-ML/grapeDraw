@@ -1,0 +1,17 @@
+.NotDetected--Text p {
+  margin-bottom: 20px;
+}
+
+.Connect--Metamask--Button a {
+  color: white;
+  text-decoration: none;
+}
+
+.Connect--Metamask--Button {
+  color: white;
+  text-decoration: none;
+}
+
+.Connect--Metamask--Button:hover {
+  color: #292929;
+}

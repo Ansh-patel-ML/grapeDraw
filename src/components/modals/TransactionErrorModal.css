@@ -1,0 +1,32 @@
+.Connect--Heading h1 {
+  font-size: 25px;
+}
+.Connect--Terms {
+  border-bottom: 1px solid #292929;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+.Connect--Terms p {
+  text-align: justify;
+}
+
+.Wallet--Details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #292929;
+}
+
+@media (max-width: 450px) {
+  .Connect--Heading h1 {
+    font-size: 20px;
+  }
+  .Connect--Terms {
+    font-size: 12px;
+  }
+  .Connect--Terms p {
+    font-size: 12px;
+  }
+}

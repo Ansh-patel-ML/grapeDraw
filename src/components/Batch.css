@@ -1,0 +1,269 @@
+.Batch {
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto Mono", monospace;
+  padding: 15px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  box-shadow: 5px 5px #292929;
+  user-select: none;
+  margin-bottom: 20px;
+}
+
+.Batch--Heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0px;
+  border-bottom: 1px solid #bbbbbb;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.Batch--Heading > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.Batch--Time--Stats {
+  display: flex;
+  align-items: center;
+}
+
+.Batch--Time--Stats div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 7px 7px 0px;
+  border-bottom: 1px solid #bbbbbb;
+  border-right: 1px solid #bbbbbb;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.Batch--Time--Stats div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0px 7px 7px;
+  border-bottom: 1px solid #bbbbbb;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.Batch--Price--Stats {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.Batch--Price--Stats--Info {
+  display: flex;
+  align-items: center;
+  padding: 7px 0px;
+  gap: 10px;
+}
+
+.Batch--Price--Container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0px 25px 0px;
+  border-bottom: 1px solid #bbbbbb;
+}
+
+.Batch--Price--Container > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+.Batch--Tickets--Price,
+.Batch--Tickets--Sold {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0px 14px 0px;
+  border-bottom: 1px solid #bbbbbb;
+}
+
+.Batch--Tickets--Price > div,
+.Batch--Tickets--Sold > div {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.Batch--Tickets--Sold {
+  border-bottom: none;
+}
+
+.Batch--Buy--Container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.Batch--Add--Button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 8px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  box-shadow: -3px -3px #292929;
+  cursor: pointer;
+  background-color: #f4f2f5;
+  
+  height: 60px;
+  width: 165px;
+}
+
+.Batch--Buy--Button {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: #2fad23;
+  color: white;
+  gap: 15px;
+  padding: 10px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  box-shadow: 3px 3px #292929;
+  flex-grow: 1;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out;
+  
+  height: 60px;
+}
+.Batch--Buy--Button:hover {
+  box-shadow: none;
+}
+
+.gray {
+  color: #666666;
+  font-weight: 400;
+}
+
+.normal {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.big {
+  font-size: 23px;
+}
+
+@media (max-width: 409px) {
+  .Batch--Add--Button {
+    flex-grow: 1;
+  }
+  .big {
+    font-size: 17px;
+  }
+  .Batch--Price--Container > div {
+    justify-content: center;
+  }
+  .grow {
+    width: 100%;
+  }
+  .invisible {
+    display: none;
+  }
+  .Batch--Transaction--Button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 789px) {
+  .Batch--Add--Button {
+    flex-grow: 1;
+  }
+}
+
+.transaction {
+  color: #0038ff;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.keyDown {
+  background-color: #bbbbbb;
+}
+
+.Batch--Transaction--Button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2fad23;
+  color: white;
+  gap: 15px;
+  padding: 10px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  box-shadow: 3px 3px #292929;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.dot1 {
+  animation: fadeInDot1 1s ease-in-out infinite;
+}
+
+.dot2 {
+  animation: fadeInDot2 1s ease-in-out infinite;
+}
+
+.dot3 {
+  animation: fadeInDot3 1s ease-in-out infinite;
+}
+
+@keyframes fadeInDot1 {
+  0% {
+    opacity: 0;
+  }
+  33% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDot2 {
+  0% {
+    opacity: 0;
+  }
+  66% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDot3 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.btn--disable {
+  opacity: 0.3;
+}
+
+.decrement--button:hover {
+  border-radius: 50%;
+  outline: 2px solid #292929;
+  transition: outline 0.10s;
+}

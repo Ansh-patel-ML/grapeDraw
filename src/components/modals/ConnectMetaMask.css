@@ -1,0 +1,88 @@
+.Connect {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Roboto Mono", monospace;
+  border: 1px solid #292929;
+  border-radius: 20px;
+  box-shadow: 5px 5px #292929;
+  max-width: 500px;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 95%;
+}
+
+.Connect--Heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 20px;
+}
+
+.Connect--Metamask--Display {
+  flex-grow: 1;
+  background-color: #cdcded;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 0px;
+  border-radius: 10px;
+  border: 1px solid #292929;
+  box-shadow: -3px -3px #292929;
+  margin-bottom: 10px;
+}
+
+.Connect--Metamask--Button {
+  flex-grow: 1;
+  background-color: #292929;
+  padding: 10px 0px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  border: 1px solid #292929;
+  box-shadow: -3px -3px #292929;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+}
+
+.Connect--Metamask--Button:hover {
+  background-color: #fff;
+  color: #292929;
+  box-shadow: -3px -3px #fff;
+}
+
+.close-modal {
+  cursor: pointer;
+}
+
+.Connect--Terms {
+  text-align: center;
+  word-break: break-word;
+  padding: 10px 5px;
+}
+
+.blue {
+  color: #0500ff;
+}
+
+.modal--wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(146, 157, 207, 0.7);
+}
+
+@media (max-width: 400px) {
+  .Connect--Heading h1 {
+    font-size: 23px;
+  }
+}

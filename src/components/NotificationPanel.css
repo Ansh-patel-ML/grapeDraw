@@ -1,0 +1,27 @@
+.Notification--Container {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  background-color: #fffbd5;
+  margin-right: 5px;
+}
+
+.Notification--Text {
+  flex-grow: 1;
+}
+
+.Notification--Text h4:last-child {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666666;
+  margin-top: 5px;
+}
+
+.Notification--Unseen {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}

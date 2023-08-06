@@ -1,0 +1,98 @@
+.carousel--container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 5px 10px;
+}
+
+@media (max-width: 1023px) {
+  .carousel--container {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .carousel--container {
+    overflow-x: scroll;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+  }
+
+  .carousel--container::-webkit-scrollbar {
+    height: 10px;
+    display: inline-block;
+  }
+  .carousel--container::-webkit-scrollbar-track {
+    background: #FFF;
+  }
+  .carousel--container::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #292929;
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+  }
+  .carousel--container::-webkit-scrollbar-button {
+    width: 6px;
+  }
+}
+
+.stats--card--body {
+  border : 1px solid black;
+  border-radius: 10px;
+  box-shadow: 3px 3px black;
+  padding: 2%;
+  width: 100%;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: "Roboto Mono", monospace;
+}
+
+
+@media (max-width: 1024px) {
+  .stats--title {
+    padding-right: 50px;
+  }
+  .stats--title2 {
+    white-space: nowrap;
+  }
+
+}
+
+.stats--card--body:hover {
+  background-color: #fffbd5;
+  cursor: pointer;
+}
+
+.stats--lower--body--valus {
+  display: flex;
+  justify-content: space-between;
+  height: 15px;
+}
+
+.stats--lower--body--valus > p{
+  white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+  .stats--lower--body--valus {
+    display: flex;
+    flex-direction: column;
+    min-height: 40px;
+
+  }
+  .stats--lower--body--valus > p{
+    display: block;
+  }
+  .stats--lower--body {
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
+}
+
+.stats--lower--body > hr{
+  margin-bottom: 2%;
+  margin-top: 2%;
+}

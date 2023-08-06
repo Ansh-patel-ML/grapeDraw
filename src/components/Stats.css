@@ -1,0 +1,32 @@
+.Stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Roboto Mono", monospace;
+  flex-grow: 1;
+  margin-bottom: 10px;
+}
+
+.Stats--Button--Container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.button {
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid #292929;
+  box-shadow: 3px 3px #292929;
+  border-radius: 10px;
+  background-color: #fff;
+  text-align: center;
+  transition: box-shadow 0.5s ease, background-color 0.5s ease;
+}
+
+.Clicked {
+  background-color: #cdcded;
+  box-shadow: -3px -3px #292929;
+}

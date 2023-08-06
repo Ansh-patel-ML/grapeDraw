@@ -1,0 +1,13 @@
+.high--padding {
+  /* padding: 0 3.5%; */
+  max-width: 1288px;
+  margin: auto;
+}
+
+.medium--padding {
+  padding: 0 3%;
+}
+
+.normal--padding {
+  padding: 0 1%;
+}
