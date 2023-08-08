@@ -76,6 +76,7 @@
 .transaction--address {
   color: blue;
   font-size: smaller;
+  text-decoration: none;
 }
 
 .debited {

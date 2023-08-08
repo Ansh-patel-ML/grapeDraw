@@ -55,7 +55,6 @@ const ActiveBatches = () => {
       >
         <h1>Active Batches</h1>
         <Batch batchId={0} />
-        <Batch batchId={1} />
       </div>
       {width >= 768 && <Stats width={width} />}
     </div>
