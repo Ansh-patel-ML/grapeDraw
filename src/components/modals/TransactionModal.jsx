@@ -1,94 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import { useQuery } from "react-query";
 import "./TransactionModal.css";
+import moment from "moment";
+import { WalletContext } from "../../App";
 import CloseModal from "../../assets/Icons/Button/CloseModal.svg";
 
-const transactions = [
-  {
-    date: "June 24, 2023",
-    transaction: [
-      {
-        ticketsQTY: 3,
-        address: "0x5287b9736e648...",
-        time: "00:07",
-      },
-      {
-        ticketsQTY: 3,
-        address: "0xe3230077c765c...",
-        time: "00:06",
-      },
-      {
-        ticketsQTY: 3,
-        address: "0x813f68c6f7b4d...",
-        time: "00:02",
-      },
-    ],
-  },
-
-  {
-    date: "June 23, 2023",
-    transaction: [
-      {
-        ticketsQTY: 787,
-        address: "0x5287b9736e648...",
-        time: "23:59",
-      },
-      {
-        ticketsQTY: 2,
-        address: "0xe3230077c765c...",
-        time: "23:52",
-      },
-      {
-        ticketsQTY: "67",
-        address: "0x813f68c6f7b4d...",
-        time: "23:52",
-      },
-      {
-        ticketsQTY: 787,
-        address: "0x5287b9736e648...",
-        time: "23:47",
-      },
-      {
-        ticketsQTY: 2,
-        address: "0xe3230077c765c...",
-        time: "23:42",
-      },
-    ],
-  },
-  {
-    date: "June 23, 2023",
-    transaction: [
-      {
-        ticketsQTY: 787,
-        address: "0x5287b9736e648...",
-        time: "23:59",
-      },
-      {
-        ticketsQTY: 2,
-        address: "0xe3230077c765c...",
-        time: "23:52",
-      },
-      {
-        ticketsQTY: "67",
-        address: "0x813f68c6f7b4d...",
-        time: "23:52",
-      },
-      {
-        ticketsQTY: 787,
-        address: "0x5287b9736e648...",
-        time: "23:47",
-      },
-      {
-        ticketsQTY: 2,
-        address: "0xe3230077c765c...",
-        time: "23:42",
-      },
-    ],
-  },
-];
-
 const TransactionModal = ({ closeModal, batchId }) => {
+  const { metaMaskAccountInfo } = useContext(WalletContext);
+  const [tnxMonth, setThxMonth] = useState(null);
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -96,11 +16,11 @@ const TransactionModal = ({ closeModal, batchId }) => {
     };
   }, []);
 
-  const { data, isLoading, isError } = useQuery(
+  const { data: batchData, isLoading, isError } = useQuery(
     ["batch", batchId],
     async () => {
       const response = await fetch(
-        `https://api.thegraph.com/subgraphs/name/ensdomains/ens`
+        `http://44.203.188.29/batch/SEPOLIA/0xe802a503fe148bb09da203c8b6d46c54cc4eea10/${batchId}`
       );
       const data = await response.json();
       return data;
@@ -126,31 +46,37 @@ const TransactionModal = ({ closeModal, batchId }) => {
             <hr />
           </div>
           <div className="transaction--body">
-            {transactions?.map((transaction, index) => (
-              <div key={index}>
-                <p className="transaction--date">{transaction.date}</p>
+            <div>
+              <p className="transaction--date">{tnxMonth}</p>
+              {batchData?.map((tnx, index) => {
+                if (tnxMonth === null) {
+                  setThxMonth(moment(tnx.date).format("LL"));
+                }
+                return (
+                  <div key={index} className="single-transaction">
+                    {tnx.sender === metaMaskAccountInfo.address ? (
+                      <h5 className="debited">
+                        {`You Paid ${tnx.ticketsAmount} Tickets`}
+                      </h5>
+                    ) : (
+                      <h5>{`Paid ${tnx.ticketsAmount} Tickets`}</h5>
+                    )}
 
-                <div>
-                  {transaction.transaction?.map((data, index) => (
-                    <div key={index} className="single-transaction">
-                      {typeof data.ticketsQTY === "string" ? (
-                        <h5 className="debited">
-                          {`You Paid ${data.ticketsQTY} Tickets`}
-                        </h5>
-                      ) : (
-                        <h5>{`Paid ${data.ticketsQTY} Tickets`}</h5>
-                      )}
-
-                      <div className="transaction">
-                        <p className="transaction--address">{data.address}</p>
-                        <p>{data.time}</p>
-                      </div>
+                    <div className="transaction">
+                      <a
+                        className="transaction--address"
+                        href={`https://sepolia.etherscan.io/tx/${tnx.txHash}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {`${tnx.txHash.slice(0, 30)}...`}
+                      </a>
+                      <p>{moment(tnx.date).format("LT")}</p>
                     </div>
-                  ))}
-                  <hr />
-                </div>
-              </div>
-            ))}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
