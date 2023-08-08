@@ -16,7 +16,7 @@ import TransactionErrorModal from "./modals/TransactionErrorModal";
 import MetaMaskNotFoundModal from "./modals/MetaMaskNotFoundModal";
 import TransactionModal from "./modals/TransactionModal";
 
-const Batch = () => {
+const Batch = ({ batchId }) => {
   const [tickets, SetTickets] = useState(2);
   const [bidCount, setBidCount] = useState(0);
   const [bidPrice, setBidPrice] = useState(0);
@@ -50,8 +50,7 @@ const Batch = () => {
     }
   };
   const HandleAddTicket = () => {
-    if (tickets < 999)
-    SetTickets((tickets) => tickets + 1);
+    if (tickets < 999) SetTickets((tickets) => tickets + 1);
   };
 
   const HandleBuyTickets = () => {
@@ -109,7 +108,10 @@ const Batch = () => {
         <MetaMaskNotFoundModal closeModal={closeConnectModal} />
       )}
       {isTransactionModal && (
-        <TransactionModal closeModal={() => setIsTransactionModal(false)} />
+        <TransactionModal
+          closeModal={() => setIsTransactionModal(false)}
+          batchId={batchId}
+        />
       )}
       <div className="Batch--Heading">
         <h1>Batch #134</h1>
@@ -178,9 +180,19 @@ const Batch = () => {
       </div>
       <div className="Batch--Buy--Container">
         <div className="Batch--Add--Button">
-          <img className={tickets === 1 ? "btn--disable" : "decrement--button"} src={LeftArrowBtn} alt="" onClick={HandleRemoveTicket} />
+          <img
+            className={tickets === 1 ? "btn--disable" : "decrement--button"}
+            src={LeftArrowBtn}
+            alt=""
+            onClick={HandleRemoveTicket}
+          />
           <h4>{tickets}</h4>
-          <img className={tickets === 999 ? "btn--disable" : "decrement--button"} src={RightArrowBtn} alt="" onClick={HandleAddTicket} />
+          <img
+            className={tickets === 999 ? "btn--disable" : "decrement--button"}
+            src={RightArrowBtn}
+            alt=""
+            onClick={HandleAddTicket}
+          />
         </div>
         {isTransactionOngoing ? (
           <div
@@ -197,7 +209,8 @@ const Batch = () => {
         ) : (
           <div className="Batch--Buy--Button" onClick={HandleBuyTickets}>
             <h4>
-              Buy {(+bidPrice.ethValue * tickets).toFixed(3)} ETH {tickets} Tickets
+              Buy {(+bidPrice.ethValue * tickets).toFixed(3)} ETH {tickets}{" "}
+              Tickets
             </h4>
           </div>
         )}

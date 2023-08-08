@@ -24,7 +24,7 @@ const ActiveBatches = () => {
   useResizeObserver(BatchRef, handleResize);
 
   useEffect(() => {
-    if(window.ethereum){
+    if (window.ethereum) {
       const web3Instance = new Web3(window.ethereum);
       const contractAddress = "0x93C6D6c09a2682285268c2C2168Aca6B4a236887";
       const contract = new web3Instance.eth.Contract(
@@ -37,7 +37,7 @@ const ActiveBatches = () => {
         contractInstance: contract,
       });
     }
-  },[]);
+  }, []);
 
   return (
     <div
@@ -54,8 +54,8 @@ const ActiveBatches = () => {
         }
       >
         <h1>Active Batches</h1>
-        <Batch />
-        <Batch />
+        <Batch batchId={0} />
+        <Batch batchId={1} />
       </div>
       {width >= 768 && <Stats width={width} />}
     </div>

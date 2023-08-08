@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-
+import { useQuery } from "react-query";
 import "./TransactionModal.css";
 import CloseModal from "../../assets/Icons/Button/CloseModal.svg";
 
@@ -88,13 +88,24 @@ const transactions = [
   },
 ];
 
-const TransactionModal = ({ closeModal }) => {
+const TransactionModal = ({ closeModal, batchId }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "unset";
     };
   }, []);
+
+  const { data, isLoading, isError } = useQuery(
+    ["batch", batchId],
+    async () => {
+      const response = await fetch(
+        `https://api.thegraph.com/subgraphs/name/ensdomains/ens`
+      );
+      const data = await response.json();
+      return data;
+    }
+  );
 
   return ReactDOM.createPortal(
     <>

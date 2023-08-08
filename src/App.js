@@ -29,7 +29,7 @@ function App() {
     <>
       <WalletContextProvider>
         <Header />
-        <Wrapper >
+        <Wrapper>
           <Hero />
           <ActiveBatches />
           <Footer />
