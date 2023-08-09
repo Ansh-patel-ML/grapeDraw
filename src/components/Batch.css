@@ -120,7 +120,7 @@
   box-shadow: -3px -3px #292929;
   cursor: pointer;
   background-color: #f4f2f5;
-  
+
   height: 60px;
   width: 165px;
 }
@@ -139,7 +139,7 @@
   flex-grow: 1;
   cursor: pointer;
   transition: box-shadow 0.2s ease-in-out;
-  
+
   height: 60px;
 }
 .Batch--Buy--Button:hover {
@@ -160,37 +160,24 @@
   font-size: 23px;
 }
 
-@media (max-width: 409px) {
-  .Batch--Add--Button {
-    flex-grow: 1;
-  }
-  .big {
-    font-size: 17px;
-  }
-  .Batch--Price--Container > div {
-    justify-content: center;
-  }
-  .grow {
-    width: 100%;
-  }
-  .invisible {
-    display: none;
-  }
-  .Batch--Transaction--Button {
-    width: 100%;
-  }
+.btn--disable {
+  opacity: 0.3;
 }
 
-@media (max-width: 789px) {
-  .Batch--Add--Button {
-    flex-grow: 1;
-  }
+.decrement--button:hover, .increment--button:hover {
+  border-radius: 50%;
+  outline: 1px solid #292929;
+  transition: outline 0.1s;
 }
 
 .transaction {
   color: #0038ff;
   font-weight: 400;
   font-size: 14px;
+}
+
+.transaction:hover {
+  cursor: pointer;
 }
 
 .keyDown {
@@ -258,12 +245,29 @@
   }
 }
 
-.btn--disable {
-  opacity: 0.3;
+@media (max-width: 409px) {
+  .Batch--Add--Button {
+    flex-grow: 1;
+  }
+  .big {
+    font-size: 17px;
+  }
+  .Batch--Price--Container > div {
+    justify-content: center;
+  }
+  .grow {
+    width: 100%;
+  }
+  .invisible {
+    display: none;
+  }
+  .Batch--Transaction--Button {
+    width: 100%;
+  }
 }
 
-.decrement--button:hover {
-  border-radius: 50%;
-  outline: 2px solid #292929;
-  transition: outline 0.10s;
+@media (max-width: 789px) {
+  .Batch--Add--Button {
+    flex-grow: 1;
+  }
 }

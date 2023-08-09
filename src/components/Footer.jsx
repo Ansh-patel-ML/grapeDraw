@@ -4,6 +4,7 @@ import "./Footer.css";
 import DiscordIcon from "../assets/Icons/Button/Discord.svg";
 import TelegramIcon from "../assets/Icons/Button/Telegram.svg";
 import TwitterIcon from "../assets/Icons/Button/Twitter.svg";
+import heartIcon from "../assets/Icons/heart-fill.png"
 
 const Footer = () => {
   return (
@@ -17,7 +18,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="Footer--sectionTwo">
-        <p>Created with ♥️ for the Decentralized World.</p>
+        <p>Created with <img src={heartIcon} alt="" className="Footer--icon"/> for the Decentralized World.</p>
         <div className="Footer--links--container">
           <a href="#">Terms of Use</a>
           <a href="#">Privacy Policy</a>
