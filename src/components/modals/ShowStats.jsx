@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import "./ShowStats.css";
 import EtheriumIcon from "../../assets/Icons/Ethereum.svg";
 import CoinOne from "../../assets/Icons/FirstPlace.png";
@@ -8,15 +7,19 @@ import CoinThree from "../../assets/Icons/ThirdPlace.png";
 import Trust from "../../assets/Icons/Trust.svg";
 import PayoutTransactionModal from "./PayoutTransactionModal";
 
-const ShowStats = () => {
+const ShowStats = ({ isOpenInModal }) => {
   const [isPayoutTransactionModal, setIsPayoutTransactionModal] =
     useState(false);
 
   return (
     <>
-      <div className="stats--card">
-        <h2 className="stats--header">Stats</h2>
-        <hr />
+      <div className={isOpenInModal ? "stats--card bought--ticket--card" : "stats--card"}>
+        {!isOpenInModal && (
+          <>
+            <h2 className="stats--header">Stats</h2>
+            <hr />
+          </>
+        )}
 
         <p className="stats--batch--no">Batch #131</p>
         <div className="stats--batch--tickets">
@@ -29,19 +32,19 @@ const ShowStats = () => {
           <div className="stats--coin--position">
             <img src={CoinOne} alt="" />
             <div>
-              <p>2.44 ETH</p>
+              <p className={isOpenInModal && "adjust--text--size"}>2.44 ETH</p>
             </div>
           </div>
           <div className="stats--coin--position">
             <img src={CoinTwo} alt="" />
             <div>
-              <p>1.33 ETH</p>
+              <p className={isOpenInModal && "adjust--text--size"}>1.33 ETH</p>
             </div>
           </div>
           <div className="stats--coin--position">
             <img src={CoinThree} alt="" />
             <div>
-              <p>0.92 ETH</p>
+              <p className={isOpenInModal && "adjust--text--size"}>0.92 ETH</p>
             </div>
           </div>
         </div>
@@ -84,8 +87,7 @@ const ShowStats = () => {
             <div>at 9:59 AM UTC</div>
           </div>
         </div>
-
-        <button className="stats--button">All Reward History</button>
+        {!isOpenInModal && <button className="stats--button">All Reward History</button>}
       </div>
 
       {isPayoutTransactionModal && (

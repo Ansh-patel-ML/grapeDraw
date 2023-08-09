@@ -36,7 +36,7 @@ const PayoutTransactionModal = ({ closeModal }) => {
       <div className="modal--wrapper"></div>
       <div className="Connect">
         <div className="Connect--Heading">
-          <h1>Payout Transaction</h1>
+          <h1 className="payout--tnx--heading">Payout Transaction</h1>
           <img
             src={CloseModal}
             alt=""
@@ -45,11 +45,12 @@ const PayoutTransactionModal = ({ closeModal }) => {
           />
         </div>
         <div className="payout--body">
-          <h4>Order #w15987h454578yuj_657</h4>
+          {window.innerWidth > 345 && <h4>Order #w15987h454578yuj_657</h4>}
+          {window.innerWidth <= 345 && <h4>Order #w15987h45457...</h4>}
 
           <div className="payout--time">
             <div>Time:</div>
-            <div>
+            <div className="payout--time--info">
               <p>June 24, 2023</p>
               <div>at 9:59 AM UTC</div>
             </div>
@@ -58,8 +59,8 @@ const PayoutTransactionModal = ({ closeModal }) => {
           {transactions.map((transactionDetails, index) => (
             <div key={index}>
               <hr />
-              <div className="payout--time">
-                <div>
+              <div className="payout--time--info--container">
+                {/* <div>
                   <p>{transactionDetails.ETH_QTY}</p>
                   <div className="payout--address">
                     {transactionDetails.accountAddress}
@@ -68,6 +69,16 @@ const PayoutTransactionModal = ({ closeModal }) => {
                 <div className="payout--completed">
                   <img src={CompletedIcon} alt="" />
                   <p>{transactionDetails.transaction}</p>
+                </div> */}
+                <div className="payout--tnx--info">
+                  <p>{transactionDetails.ETH_QTY}</p>
+                  <div className="payout--completed">
+                    <img src={CompletedIcon} alt="" />
+                    <p>{transactionDetails.transaction}</p>
+                  </div>
+                </div>
+                <div className="payout--address">
+                  {transactionDetails.accountAddress}
                 </div>
               </div>
             </div>

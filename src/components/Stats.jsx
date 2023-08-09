@@ -148,7 +148,7 @@ const Stats = ({ width }) => {
             {metaMaskAccountInfo.address && showRewardHistory && (
               <ShowRewardHistory />
             )}
-            <ShowStats />
+            <ShowStats isOpenInModal={false}/>
           </div>
         </>
       )}
@@ -162,7 +162,7 @@ const Stats = ({ width }) => {
             />
           )}
           {metaMaskAccountInfo.address && <ShowRewardHistory />}
-          <ShowStats /> 
+          <ShowStats isOpenInModal={false}/> 
         </>
       )}
     </div>

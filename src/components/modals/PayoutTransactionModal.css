@@ -6,6 +6,11 @@
   margin-top: 1%;
 }
 
+.payout--tnx--heading {
+  font-weight: 800 !important;
+  font-size: 1.5rem !important;
+}
+
 .payout--time {
   display: flex;
   justify-content: space-between;
@@ -13,10 +18,30 @@
   margin-top: 0.7rem;
   margin-bottom: 0.7rem;
 }
+
+.payout--time--info--container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 5px 0px;
+}
+
+.payout--tnx--info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .payout--time p {
   font-weight: bold;
 }
 
+.payout--time--info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 .payout--address {
   color: blue;
   font-size: smaller;
@@ -25,6 +50,6 @@
 .payout--completed {
   display: flex;
   align-items: center;
-  gap : 0.5rem;
+  gap: 0.5rem;
   color: rgb(107, 109, 110);
 }

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-
+import ReactDOM from "react-dom";
 import "./BoughtTicketsModal.css";
 import SearchIcon from "../../assets/Icons/SearchIcon.png";
 import CloseModal from "../../assets/Icons/Button/CloseModal.svg";
-import BoughtTickets from "../BoughtTickets";
 import { useState } from "react";
+import ShowStats from "./ShowStats";
 
 const BoughtTicketsModal = ({ closeModal }) => {
   const [batches, setBatches] = useState(["1", "2", "3"]);
@@ -16,10 +16,10 @@ const BoughtTicketsModal = ({ closeModal }) => {
     };
   }, []);
 
-  return (
+  return ReactDOM.createPortal(
     <>
       <div className="modal--wrapper"></div>
-      <div className="Connect" id="Connect">
+      <div className="Bought-Connect" id="Connect">
         <div className="bought--tickets--head">
           <div className="Connect--Heading">
             <h1>Bought Tickets</h1>
@@ -31,9 +31,7 @@ const BoughtTicketsModal = ({ closeModal }) => {
             />
           </div>
           <div className="searchbar">
-            <span className="search--icon">
-              <img src={SearchIcon} alt="" />
-            </span>
+              <img src={SearchIcon} alt="" className="search--icon" />
             <input
               type="search"
               className="search--input"
@@ -43,7 +41,9 @@ const BoughtTicketsModal = ({ closeModal }) => {
         </div>
         <div className="bought--tickets--body">
           {batches.map((index) => (
-            <BoughtTickets key={index}/>
+            <>
+              <ShowStats key={index} isOpenInModal={true} />
+            </>
           ))}
           <button
             className="stats--button"
@@ -53,7 +53,8 @@ const BoughtTicketsModal = ({ closeModal }) => {
           </button>
         </div>
       </div>
-    </>
+    </>,
+    document.getElementById("modal")
   );
 };
 
