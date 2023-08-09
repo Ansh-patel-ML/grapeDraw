@@ -86,6 +86,16 @@
   color: #292929;
 }
 
+.bought--ticket--card {
+  margin-top: 0.8rem;
+  box-shadow: 3px 3px black;
+}
+
+.adjust--text--size {
+  font-size: 14px;
+  font-weight: 600;
+}
+
 @media (max-width:325px) {
   .stats--closing--date {
     width: 100px;

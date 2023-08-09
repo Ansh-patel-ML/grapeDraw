@@ -6,7 +6,7 @@
 #Connect {
   height: 700px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 
