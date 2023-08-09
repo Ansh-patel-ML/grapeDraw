@@ -188,7 +188,7 @@ const Batch = ({ batchId }) => {
           />
           <h4>{tickets}</h4>
           <img
-            className={tickets === 999 ? "btn--disable" : "decrement--button"}
+            className={tickets === 999 ? "btn--disable" : "increment--button"}
             src={RightArrowBtn}
             alt=""
             onClick={HandleAddTicket}
@@ -204,7 +204,6 @@ const Batch = ({ batchId }) => {
               <span className="dot2">.</span>
               <span className="dot3">.</span>
             </h4>
-            {/* <h4>Cancel</h4> */}
           </div>
         ) : (
           <div className="Batch--Buy--Button" onClick={HandleBuyTickets}>

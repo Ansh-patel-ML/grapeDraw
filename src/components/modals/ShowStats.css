@@ -24,6 +24,12 @@
   margin-top: 0.7rem;
 }
 
+.stats--batch--closing--date--info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .stats--coins {
   display: flex;
   justify-content: space-around;
@@ -38,12 +44,6 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-}
-
-.stats--coin--position:hover {
-  outline: 1px solid black;
-  border-radius: 10px;
-  background-color: #fffbd5;
 }
 
 .stats--payout {
@@ -78,9 +78,16 @@
   background-color: #292929;
   color: white;
   transition: background-color 0.5s ease, color 0.5s ease;
+  font-family: "Roboto Mono", monospace;
 }
 
 .stats--button:hover {
   background-color: #fff;
   color: #292929;
+}
+
+@media (max-width:325px) {
+  .stats--closing--date {
+    width: 100px;
+  }
 }

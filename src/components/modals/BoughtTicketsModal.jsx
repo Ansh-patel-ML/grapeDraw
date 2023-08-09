@@ -49,7 +49,7 @@ const BoughtTicketsModal = ({ closeModal }) => {
             className="stats--button"
             onClick={() => setBatches((prev) => [...prev, "4", "5", "6"])}
           >
-            All Reward History
+            More Batches
           </button>
         </div>
       </div>

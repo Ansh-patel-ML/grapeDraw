@@ -63,7 +63,7 @@ const ShowStats = () => {
             </div>
           </div>
           <div className="stats--batch--tickets">
-            <div>Peropd :</div>
+            <div>Period :</div>
             <p>Weekly</p>
           </div>
           <div className="stats--batch--tickets">
@@ -78,8 +78,8 @@ const ShowStats = () => {
         <hr />
 
         <div className="stats--batch--tickets">
-          <div>Closing Date :</div>
-          <div>
+          <div className="stats--closing--date">Closing Date :</div>
+          <div className="stats--batch--closing--date--info">
             <p>June 24, 2023</p>
             <div>at 9:59 AM UTC</div>
           </div>
