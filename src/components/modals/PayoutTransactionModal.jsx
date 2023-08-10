@@ -60,16 +60,6 @@ const PayoutTransactionModal = ({ closeModal }) => {
             <div key={index}>
               <hr />
               <div className="payout--time--info--container">
-                {/* <div>
-                  <p>{transactionDetails.ETH_QTY}</p>
-                  <div className="payout--address">
-                    {transactionDetails.accountAddress}
-                  </div>
-                </div>
-                <div className="payout--completed">
-                  <img src={CompletedIcon} alt="" />
-                  <p>{transactionDetails.transaction}</p>
-                </div> */}
                 <div className="payout--tnx--info">
                   <p>{transactionDetails.ETH_QTY}</p>
                   <div className="payout--completed">

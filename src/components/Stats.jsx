@@ -15,12 +15,14 @@ const Stats = ({ width }) => {
   const [openModal, setOpenModal] = useState(false);
   const [isConnectedPopUp, setIsConnectedPopUp] = useState(false);
   const [showRewardHistory, setShowRewardHistory] = useState(true);
-  const [showConnectWallet, setShowConnectWallet] = useState(true);
+  const [showStatsHistory, setShowStatsHistory] = useState(false);
+  const [showConnectRewardWallet, setShowConnectRewardsWallet] = useState(true);
+  const [showConnectStatsWallet, setShowConnectStatsWallet] = useState(false);
   const [isMetaMaskNotFound, setIsMetaMaskNotFound] = useState(false);
   const [highlightButton, setHighlightButton] = useState({
     isRewardOpen: true,
     isStatsOpen: false,
-  });
+  });   
 
   const closePopUp = () => setIsConnectedPopUp(false);
   const closeConnectModal = (isConnected, address) => {
@@ -46,34 +48,41 @@ const Stats = ({ width }) => {
     if (!metaMaskAccountInfo.address && !metaMaskAccountInfo.isConnected) {
       setHighlightButton((prev) => {
         if (prev.isStatsOpen) {
+          setShowConnectRewardsWallet(true)
+          setShowConnectStatsWallet(false)
           return {
             isRewardOpen: !prev.isRewardOpen,
             isStatsOpen: false,
           };
         } else {
+          if (prev.isRewardOpen) {
+            setShowConnectRewardsWallet(false);
+            setShowConnectStatsWallet(false)
+          } else {
+            setShowConnectRewardsWallet(true);
+            setShowConnectStatsWallet(false)
+          }
           return {
             ...prev,
             isRewardOpen: !prev.isRewardOpen,
           };
         }
       });
-      setShowConnectWallet((prev) => !prev);
     } else {
       setHighlightButton((prev) => {
         if (prev.isStatsOpen) {
-          // setShowConnectWallet((prev) => !prev);
           return {
             isRewardOpen: !prev.isRewardOpen,
             isStatsOpen: false,
           };
         } else {
-          // setShowConnectWallet((prev) => !prev);
           return {
             ...prev,
             isRewardOpen: !prev.isRewardOpen,
           };
         }
       });
+      setShowStatsHistory(false)
       setShowRewardHistory((prev) => !prev);
     }
   };
@@ -90,18 +99,42 @@ const Stats = ({ width }) => {
     if (!metaMaskAccountInfo.address && !metaMaskAccountInfo.isConnected) {
       setHighlightButton((prev) => {
         if (prev.isRewardOpen) {
-          setShowConnectWallet(false);
+          setShowConnectStatsWallet(true)
+          setShowConnectRewardsWallet(false)
           return {
             isRewardOpen: false,
             isStatsOpen: !prev.isStatsOpen,
           };
         } else {
+          if (prev.isStatsOpen) {
+            setShowConnectStatsWallet(false);
+            setShowConnectRewardsWallet(false);
+          } else {
+            setShowConnectStatsWallet(true);
+            setShowConnectRewardsWallet(false)
+          }
           return {
             ...prev,
             isStatsOpen: !prev.isStatsOpen,
           };
         }
       });
+    } else {
+      setHighlightButton((prev) => {
+        if (prev.isRewardOpen) {
+          return {
+            isRewardOpen: false,
+            isStatsOpen: !prev.isStatsOpen,
+          };
+        } else {
+          return { 
+            ...prev,
+            isStatsOpen: !prev.isStatsOpen,
+          };
+        }
+      });
+      setShowRewardHistory(false)
+      setShowStatsHistory((prev) => !prev);
     }
   };
 
@@ -138,17 +171,26 @@ const Stats = ({ width }) => {
             </div>
           </div>
           <div className="Stats--Show">
-            {!metaMaskAccountInfo.address && showConnectWallet && (
+            {!metaMaskAccountInfo.address && showConnectStatsWallet && (
               <ConnectWallet
                 setOpenModal={handleConnectToWallet}
-                setShowConnectWallet={setShowConnectWallet}
+                setShowConnectWallet={setShowConnectStatsWallet}
+                message={"Connect to Metamask to view your stats"}
+              />
+            )}
+            {!metaMaskAccountInfo.address && showConnectRewardWallet && (
+              <ConnectWallet
+                setOpenModal={handleConnectToWallet}
+                setShowConnectWallet={setShowConnectRewardsWallet}
                 message={"Connect to Metamask to view your rewards"}
               />
             )}
             {metaMaskAccountInfo.address && showRewardHistory && (
               <ShowRewardHistory />
             )}
-            <ShowStats isOpenInModal={false}/>
+            {metaMaskAccountInfo.address && showStatsHistory && (
+              <ShowStats isOpenInModal={false}/>
+            )}
           </div>
         </>
       )}
@@ -157,7 +199,7 @@ const Stats = ({ width }) => {
           {!metaMaskAccountInfo.address && (
             <ConnectWallet
               setOpenModal={handleConnectToWallet}
-              setShowConnectWallet={setShowConnectWallet}
+              setShowConnectWallet={setShowConnectRewardsWallet}
               message={"Connect to Metamask to view your rewards"}
             />
           )}
