@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./ShowStats.css";
-import EtheriumIcon from "../../assets/Icons/Ethereum.svg";
-import CoinOne from "../../assets/Icons/FirstPlace.png";
-import CoinTwo from "../../assets/Icons/SecondPlace.png";
-import CoinThree from "../../assets/Icons/ThirdPlace.png";
-import Trust from "../../assets/Icons/Trust.svg";
-import PayoutTransactionModal from "./PayoutTransactionModal";
+import EtheriumIcon from "../assets/Icons/Ethereum.svg";
+import CoinOne from "../assets/Icons/FirstPlace.png";
+import CoinTwo from "../assets/Icons/SecondPlace.png";
+import CoinThree from "../assets/Icons/ThirdPlace.png";
+import Trust from "../assets/Icons/Trust.svg";
+import PayoutTransactionModal from "./modals/PayoutTransactionModal";
 
 const ShowStats = ({ isOpenInModal }) => {
   const [isPayoutTransactionModal, setIsPayoutTransactionModal] =
@@ -13,7 +13,11 @@ const ShowStats = ({ isOpenInModal }) => {
 
   return (
     <>
-      <div className={isOpenInModal ? "stats--card bought--ticket--card" : "stats--card"}>
+      <div
+        className={
+          isOpenInModal ? "stats--card bought--ticket--card" : "stats--card"
+        }
+      >
         {!isOpenInModal && (
           <>
             <h2 className="stats--header">Stats</h2>
@@ -87,7 +91,9 @@ const ShowStats = ({ isOpenInModal }) => {
             <div>at 9:59 AM UTC</div>
           </div>
         </div>
-        {!isOpenInModal && <button className="stats--button">All Reward History</button>}
+        {!isOpenInModal && (
+          <button className="stats--button">All Reward History</button>
+        )}
       </div>
 
       {isPayoutTransactionModal && (

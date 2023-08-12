@@ -1,20 +1,39 @@
-.Connet {
-  height: 100px;
-  width: 100%;
+.transactionModal--Connect {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Roboto Mono", monospace;
+  border: 1px solid #292929;
+  border-radius: 20px;
+  box-shadow: 5px 5px #292929;
+  max-width: 500px;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 95%;
 }
 
 #Connect {
-  height: 700px;
+  height: 600px;
   display: flex;
   justify-content: flex-start;
 }
 
+.transactionModal--Heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 20px;
+}
 
-
-.transaction--header h3 {
+.transactionModal--Heading h3 {
   padding-left: 2%;
 }
-.transaction--header hr {
+.transactionModal--Heading hr {
   margin: 2%;
 }
 

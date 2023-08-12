@@ -4,7 +4,7 @@ import "./BoughtTicketsModal.css";
 import SearchIcon from "../../assets/Icons/SearchIcon.png";
 import CloseModal from "../../assets/Icons/Button/CloseModal.svg";
 import { useState } from "react";
-import ShowStats from "./ShowStats";
+import ShowStats from "../ShowStats";
 
 const BoughtTicketsModal = ({ closeModal }) => {
   const [batches, setBatches] = useState(["1", "2", "3"]);
