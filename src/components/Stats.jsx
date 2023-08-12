@@ -7,7 +7,7 @@ import ShowRewardHistory from "./ShowRewardHistory";
 import MetaMaskNotFoundModal from "./modals/MetaMaskNotFoundModal";
 
 import "./Stats.css";
-import ShowStats from "./modals/ShowStats";
+import ShowStats from "./ShowStats";
 
 const Stats = ({ width }) => {
   const { metaMaskAccountInfo } = useContext(WalletContext);
