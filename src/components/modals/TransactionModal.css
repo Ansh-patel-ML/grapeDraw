@@ -16,7 +16,7 @@
   width: 95%;
 }
 
-#Connect {
+#transaction--Connect {
   height: 600px;
   display: flex;
   justify-content: flex-start;
@@ -36,7 +36,6 @@
 .transactionModal--Heading hr {
   margin: 2%;
 }
-
 
 .transaction--body {
   border-radius: 10px;

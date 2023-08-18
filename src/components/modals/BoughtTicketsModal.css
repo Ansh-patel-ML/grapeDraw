@@ -9,7 +9,6 @@
 .Bought-Connect {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   font-family: "Roboto Mono", monospace;
   border: 1px solid #292929;
   border-radius: 20px;
@@ -22,6 +21,8 @@
   transform: translate(-50%, -50%);
   background-color: #fff;
   width: 95%;
+  height: 700px;
+  justify-content: flex-start;
 }
 
 .search--input {
@@ -61,7 +62,7 @@
   width: 94%;
   padding-bottom: 1rem;
   z-index: 3;
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .bought--tickets--body {
@@ -78,7 +79,7 @@
   right: -4%;
 }
 
-@media (max-width:330px) {
+@media (max-width: 330px) {
   .Bought-Connect {
     font-size: 14px;
     width: 90%;
