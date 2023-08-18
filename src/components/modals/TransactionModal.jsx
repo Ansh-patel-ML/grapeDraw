@@ -32,7 +32,7 @@ const TransactionModal = ({ closeModal, batchId }) => {
   return ReactDOM.createPortal(
     <>
       <div className="modal--wrapper"></div>
-      <div className="transactionModal--Connect" id="Connect">
+      <div className="transactionModal--Connect" id="transaction--Connect">
         <div className="transactionModal--Heading">
           <h1>Transaction</h1>
           <img
@@ -50,19 +50,19 @@ const TransactionModal = ({ closeModal, batchId }) => {
           <div className="transaction--body">
             {isLoading ? (
               <TailSpin
-                  height="40"
-                  width="40"
-                  color="#4fa94d"
-                  ariaLabel="tail-spin-loading"
-                  radius="1"
-                  wrapperStyle={{
-                    width:"100%",
-                    justifyContent: "center",
-                    marginTop: "10px"
-                  }}
-                  wrapperClass=""
-                  visible={true}
-                />
+                height="40"
+                width="40"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{
+                  width: "100%",
+                  justifyContent: "center",
+                  marginTop: "10px",
+                }}
+                wrapperClass=""
+                visible={true}
+              />
             ) : (
               <>
                 <div>

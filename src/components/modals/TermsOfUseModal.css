@@ -1,0 +1,112 @@
+.TermsOfUse-Connect {
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto Mono", monospace;
+  border: 1px solid #292929;
+  border-radius: 20px;
+  box-shadow: 5px 5px #292929;
+  max-width: 500px;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 90%;
+  height: 700px;
+  justify-content: flex-start;
+}
+
+.terms--of--use--mainContainer {
+  padding: 15px;
+  border: 1px solid #292929;
+  box-shadow: -3px -3px #292929;
+  border-radius: 6px;
+  margin-top: 5px;
+}
+
+.TermsOfUse--tickets--body::-webkit-scrollbar {
+  width: 10px;
+}
+.TermsOfUse--tickets--body::-webkit-scrollbar-track {
+  background-color: rgba(146, 157, 207, 0);
+  border-radius: 10px;
+  margin-left: 15px;
+  margin-top: -18px;
+}
+.TermsOfUse--tickets--body::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #292929;
+  border-bottom: 3px solid #292929;
+  border-right: 3px solid #292929;
+}
+.TermsOfUse--tickets--body::-webkit-scrollbar-button {
+  height: 0px;
+}
+
+.TermsOfUse--tickets--head {
+  padding-left: 1%;
+  position: absolute;
+  right: 3%;
+  width: 94%;
+  z-index: 3;
+  background-color: #fff;
+}
+
+.TermsOfUse--tickets--body {
+  gap: 2rem;
+  padding-top: 3.6rem;
+  border-radius: 10px;
+  padding-left: 12%;
+  padding-right: 6%;
+  padding-bottom: 3%;
+  max-height: 660px;
+  width: 113%;
+  overflow-y: scroll;
+  position: absolute;
+  right: -5%;
+}
+
+.terms--of--use {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #bbbbbb;
+}
+.terms--of--use--title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.terms--of--use--subTitle {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #666666;
+  text-align: justify;
+  margin-top: 5px;
+}
+
+.terms--of--use--subSection--container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.terms--of--use--subSection--container > h2 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 330px) {
+  .TermsOfUse-Connect {
+    font-size: 14px;
+    width: 90%;
+  }
+}
+
+@media (max-width: 375px) {
+  .TermsOfUse-Connect {
+    max-width: 340px;
+  }
+}

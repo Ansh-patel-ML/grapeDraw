@@ -31,7 +31,7 @@ const BoughtTicketsModal = ({ closeModal }) => {
             />
           </div>
           <div className="searchbar">
-              <img src={SearchIcon} alt="" className="search--icon" />
+            <img src={SearchIcon} alt="" className="search--icon" />
             <input
               type="search"
               className="search--input"
