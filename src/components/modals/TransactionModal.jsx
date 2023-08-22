@@ -22,9 +22,7 @@ const TransactionModal = ({ closeModal, batchId }) => {
     isLoading,
     isError,
   } = useQuery(["batch", batchId], async () => {
-    const response = await fetch(
-      `http://44.203.188.29/batch/SEPOLIA/0xe802a503fe148bb09da203c8b6d46c54cc4eea10/${batchId}`
-    );
+    const response = await fetch(`http://44.203.188.29/bid/batch/${batchId}`);
     const data = await response.json();
     return data;
   });
@@ -44,7 +42,7 @@ const TransactionModal = ({ closeModal, batchId }) => {
         </div>
         <div className="transaction--modal">
           <div className="transaction--header">
-            <h3>Batch #134</h3>
+            <h3>{`Batch #${batchId}`}</h3>
             <hr />
           </div>
           <div className="transaction--body">
@@ -67,34 +65,48 @@ const TransactionModal = ({ closeModal, batchId }) => {
               <>
                 <div>
                   <p className="transaction--date">{tnxMonth}</p>
-                  {batchData?.map((tnx, index) => {
-                    if (tnxMonth === null) {
-                      setThxMonth(moment(tnx.date).format("LL"));
-                    }
-                    return (
-                      <div key={index} className="single-transaction">
-                        {tnx.sender === metaMaskAccountInfo.address ? (
-                          <h5 className="debited">
-                            {`You Paid ${tnx.ticketsAmount} Tickets`}
-                          </h5>
-                        ) : (
-                          <h5>{`Paid ${tnx.ticketsAmount} Tickets`}</h5>
-                        )}
+                  {batchData.items.length === 0 && (
+                    <p
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        color: "#000",
+                        fontWeight: "bold",
+                        marginTop: "20px",
+                      }}
+                    >
+                      No Transaction to show
+                    </p>
+                  )}
+                  {batchData.items.length !== 0 &&
+                    batchData.items?.map((tnx, index) => {
+                      if (tnxMonth === null) {
+                        setThxMonth(moment(tnx.date).format("LL"));
+                      }
+                      return (
+                        <div key={index} className="single-transaction">
+                          {tnx.sender === metaMaskAccountInfo.address ? (
+                            <h5 className="debited">
+                              {`You Paid ${tnx.ticketsAmount} Tickets`}
+                            </h5>
+                          ) : (
+                            <h5>{`Paid ${tnx.ticketsAmount} Tickets`}</h5>
+                          )}
 
-                        <div className="transaction">
-                          <a
-                            className="transaction--address"
-                            href={`https://sepolia.etherscan.io/tx/${tnx.txHash}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {`${tnx.txHash.slice(0, 23)}...`}
-                          </a>
-                          <p>{moment(tnx.date).format("HH:mm")}</p>
+                          <div className="transaction">
+                            <a
+                              className="transaction--address"
+                              href={`https://sepolia.etherscan.io/tx/${tnx.txHash}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {`${tnx.txHash.slice(0, 23)}...`}
+                            </a>
+                            <p>{moment(tnx.date).format("HH:mm")}</p>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
                 </div>
               </>
             )}
