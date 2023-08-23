@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import CloseModal from "../../assets/Icons/Button/CloseModal.svg";
 import MetaMaskIcon from "../../assets/Icons/MetaMask.svg";
 import Web3 from "web3";
-import GrapeDraw from "../../contracts/GrapeDraw.json";
 import "./ConnectMetaMask.css";
 import { WalletContext } from "../../App";
 
@@ -20,16 +19,10 @@ const ConnectMetaMask = ({ closeModal }) => {
       if (window.ethereum) {
         await window.ethereum.request({ method: "eth_requestAccounts" });
         const web3Instance = new Web3(window.ethereum);
-        const contractAddress = "0x93C6D6c09a2682285268c2C2168Aca6B4a236887";
-        const contract = new web3Instance.eth.Contract(
-          GrapeDraw.abi,
-          contractAddress
-        );
         const accounts = await web3Instance.eth.getAccounts();
         setMetaMaskAccountInfo({
           ...metaMaskAccountInfo,
           web3: web3Instance,
-          contractInstance: contract,
           isConnected: true,
           address: accounts[0],
         });

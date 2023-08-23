@@ -9,15 +9,21 @@ import RightArrowBtn from "../assets/Icons/RightArrowBtn.svg";
 import InfoIcon from "../assets/Icons/16.svg";
 import { WalletContext } from "../App";
 import ConnectMetaMask from "./modals/ConnectMetaMask";
-import { _Bid, _getBidCount, _getBidPrice } from "../ContractFunctions";
+import {
+  _Bid,
+  _getBidCount,
+  _getBidPrice,
+  _getLottriesInfo,
+} from "../ContractFunctions";
 import MessagePopUp from "./modals/MessagePopUp";
+import GrapeDraw from "../contracts/GrapeDraw.json";
 import "./Batch.css";
 import TransactionErrorModal from "./modals/TransactionErrorModal";
 import MetaMaskNotFoundModal from "./modals/MetaMaskNotFoundModal";
 import TransactionModal from "./modals/TransactionModal";
 
-const Batch = ({ batchId }) => {
-  const [tickets, SetTickets] = useState(2);
+const Batch = ({ batchInfo, contractAddress }) => {
+  const [tickets, SetTickets] = useState(1);
   const [bidCount, setBidCount] = useState(0);
   const [bidPrice, setBidPrice] = useState(0);
   const [openModal, setOpenModal] = useState(false);
@@ -27,7 +33,7 @@ const Batch = ({ batchId }) => {
   const [isTransactionOngoing, setIsTransactionOngoing] = useState(false);
   const [transactionErrorModal, setTransactionErrorModal] = useState(false);
   const [transactionStatusPopUp, setTransactionStatusPopUp] = useState(false);
-
+  const [contractInstance, setContractInstance] = useState(null);
   const { metaMaskAccountInfo } = useContext(WalletContext);
 
   const closeConnectModal = (isConnected, address) => {
@@ -61,7 +67,7 @@ const Batch = ({ batchId }) => {
         tickets,
         metaMaskAccountInfo.address,
         metaMaskAccountInfo.web3,
-        metaMaskAccountInfo.contractInstance,
+        contractInstance,
         setIsTransactionOngoing,
         setTransactionStatusPopUp,
         setTransactionErrorModal
@@ -76,15 +82,16 @@ const Batch = ({ batchId }) => {
   };
 
   useEffect(() => {
-    if (metaMaskAccountInfo.web3 && metaMaskAccountInfo.contractInstance) {
-      _getBidCount(metaMaskAccountInfo.contractInstance, setBidCount);
-      _getBidPrice(
-        metaMaskAccountInfo.contractInstance,
-        setBidPrice,
-        metaMaskAccountInfo.web3
+    if (metaMaskAccountInfo.web3) {
+      const contract = new metaMaskAccountInfo.web3.eth.Contract(
+        GrapeDraw.abi,
+        contractAddress
       );
+      setContractInstance(contract);
+      _getBidCount(contract, setBidCount);
+      _getBidPrice(contract, setBidPrice, metaMaskAccountInfo.web3);
     }
-  }, [metaMaskAccountInfo.web3, metaMaskAccountInfo.contractInstance]);
+  }, []);
 
   return (
     <div className="Batch">
@@ -110,11 +117,11 @@ const Batch = ({ batchId }) => {
       {isTransactionModal && (
         <TransactionModal
           closeModal={() => setIsTransactionModal(false)}
-          batchId={batchId}
+          batchId={batchInfo.id}
         />
       )}
       <div className="Batch--Heading">
-        <h1>Batch #134</h1>
+        <h1>{`Batch #${batchInfo.id}`}</h1>
         <div>
           <img src={EtheriumIcon} alt="" />
           <h4>Ethereum</h4>

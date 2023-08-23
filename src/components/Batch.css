@@ -164,7 +164,8 @@
   opacity: 0.3;
 }
 
-.decrement--button:hover, .increment--button:hover {
+.decrement--button:hover,
+.increment--button:hover {
   border-radius: 50%;
   outline: 1px solid #292929;
   transition: outline 0.1s;
@@ -197,6 +198,7 @@
   box-shadow: 3px 3px #292929;
   flex-grow: 1;
   cursor: pointer;
+  height: 60px;
 }
 
 .dot1 {
