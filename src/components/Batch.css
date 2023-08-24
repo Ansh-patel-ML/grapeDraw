@@ -73,6 +73,14 @@
   border-bottom: 1px solid #bbbbbb;
 }
 
+.endTime {
+  border-bottom: none;
+}
+
+.countdown {
+  font-weight: 600;
+}
+
 .Batch--Price--Container > div {
   display: flex;
   align-items: center;

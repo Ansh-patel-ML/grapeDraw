@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-
+import Countdown from "react-countdown";
 import EtheriumIcon from "../assets/Icons/Ethereum.svg";
 import CoinOne from "../assets/Icons/FirstPlace.png";
 import CoinTwo from "../assets/Icons/SecondPlace.png";
@@ -18,6 +18,7 @@ import {
 import MessagePopUp from "./modals/MessagePopUp";
 import GrapeDraw from "../contracts/GrapeDraw.json";
 import "./Batch.css";
+import { TailSpin } from "react-loader-spinner";
 import TransactionErrorModal from "./modals/TransactionErrorModal";
 import MetaMaskNotFoundModal from "./modals/MetaMaskNotFoundModal";
 import TransactionModal from "./modals/TransactionModal";
@@ -35,6 +36,7 @@ const Batch = ({ batchInfo, contractAddress }) => {
   const [transactionStatusPopUp, setTransactionStatusPopUp] = useState(false);
   const [contractInstance, setContractInstance] = useState(null);
   const { metaMaskAccountInfo } = useContext(WalletContext);
+  const [endTime, setEndTime] = useState(false);
 
   const closeConnectModal = (isConnected, address) => {
     setOpenModal(false);
@@ -127,100 +129,176 @@ const Batch = ({ batchInfo, contractAddress }) => {
           <h4>Ethereum</h4>
         </div>
       </div>
-      <div className="Batch--Time--Stats">
-        <div>
-          <h4 className="gray grow">Period:</h4>
-          <h4>Daily</h4>
-        </div>
-        <div>
-          <h4 className="gray grow">Ends in:</h4>
-          <h4>00:03:58</h4>
-        </div>
-      </div>
-      <div className="Batch--Price--Stats">
-        <div className="Batch--Price--Stats--Info">
-          <h4 className="gray">Grand prizes</h4>
-          <img src={InfoIcon} alt="" />
-        </div>
-        <div className="Batch--Price--Container">
-          <div>
-            <img src={CoinOne} alt="" />
+      {endTime ? (
+        <>
+          <div className="Batch--Time--Stats">
             <div>
-              <h4 className="big normal">2.44 ETH</h4>
-              <h4 className="gray invisible">$4687.29</h4>
+              <h4 className="gray grow">Period:</h4>
+              <h4>Daily</h4>
+            </div>
+            <div>
+              <h4 className="gray grow">Ends in:</h4>
+              <Countdown
+                date={new Date("08/24/2023 10:30:00 PM")}
+                className="countdown"
+              />
             </div>
           </div>
-          <div>
-            <img src={CoinTwo} alt="" />
-            <div>
-              <h4 className="big normal">0.92 ETH</h4>
-              <h4 className="gray invisible">$1767.58</h4>
-            </div>
-          </div>
-          <div>
-            <img src={CoinThree} alt="" />
-            <div>
-              <h4 className="big normal">1.33 ETH</h4>
-              <h4 className="gray invisible">$2555.30</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="Batch--Tickets--Price">
-        <h4 className="gray">Ticket Price:</h4>
-        <div>
-          <h4 className="normal">{bidPrice.ethValue} ETH</h4>
-          <h4 className="gray">${bidPrice.usdValue}</h4>
-        </div>
-      </div>
-      <div className="Batch--Tickets--Sold">
-        <h4 className="gray">Sold tickets:</h4>
-        <div>
-          <h4 className="normal">{parseInt(bidCount)}</h4>
-          <h4
-            className="transaction"
-            onClick={() => setIsTransactionModal(true)}
-          >
-            Transactions
-          </h4>
-        </div>
-      </div>
-      <div className="Batch--Buy--Container">
-        <div className="Batch--Add--Button">
-          <img
-            className={tickets === 1 ? "btn--disable" : "decrement--button"}
-            src={LeftArrowBtn}
-            alt=""
-            onClick={HandleRemoveTicket}
-          />
-          <h4>{tickets}</h4>
-          <img
-            className={tickets === 999 ? "btn--disable" : "increment--button"}
-            src={RightArrowBtn}
-            alt=""
-            onClick={HandleAddTicket}
-          />
-        </div>
-        {isTransactionOngoing ? (
           <div
-            className="Batch--Transaction--Button"
-            onClick={HandleBuyTickets}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
           >
-            <h4>
-              Transaction<span className="dot1">.</span>
-              <span className="dot2">.</span>
-              <span className="dot3">.</span>
-            </h4>
+            <TailSpin
+              height="30"
+              width="30"
+              color="#4fa94d"
+              ariaLabel="tail-spin-loading"
+              radius="1"
+              wrapperClass=""
+              visible={true}
+            />
+            <p style={{ color: "#666666" }}>Looking for winners...</p>
           </div>
-        ) : (
-          <div className="Batch--Buy--Button" onClick={HandleBuyTickets}>
-            <h4>
-              Buy {(+bidPrice.ethValue * tickets).toFixed(3)} ETH {tickets}{" "}
-              Tickets
-            </h4>
+          <div className="Batch--Price--Stats ">
+            <div className="Batch--Price--Stats--Info">
+              <h4 className="gray">Grand prizes</h4>
+              <img src={InfoIcon} alt="" />
+            </div>
+            <div className="Batch--Price--Container endTime">
+              <div>
+                <img src={CoinOne} alt="" />
+                <div>
+                  <h4 className="big normal">2.44 ETH</h4>
+                  <h4 className="gray invisible">$4687.29</h4>
+                </div>
+              </div>
+              <div>
+                <img src={CoinTwo} alt="" />
+                <div>
+                  <h4 className="big normal">0.92 ETH</h4>
+                  <h4 className="gray invisible">$1767.58</h4>
+                </div>
+              </div>
+              <div>
+                <img src={CoinThree} alt="" />
+                <div>
+                  <h4 className="big normal">1.33 ETH</h4>
+                  <h4 className="gray invisible">$2555.30</h4>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
+        </>
+      ) : (
+        <>
+          <div className="Batch--Time--Stats">
+            <div>
+              <h4 className="gray grow">Period:</h4>
+              <h4>Daily</h4>
+            </div>
+            <div>
+              <h4 className="gray grow">Ends in:</h4>
+              <Countdown
+                date={new Date("08/24/2023 10:30:00 PM")}
+                onComplete={() => setEndTime(true)}
+                className="countdown"
+                daysInHours={true}
+              />
+            </div>
+          </div>
+          <div className="Batch--Price--Stats">
+            <div className="Batch--Price--Stats--Info">
+              <h4 className="gray">Grand prizes</h4>
+              <img src={InfoIcon} alt="" />
+            </div>
+            <div className="Batch--Price--Container">
+              <div>
+                <img src={CoinOne} alt="" />
+                <div>
+                  <h4 className="big normal">2.44 ETH</h4>
+                  <h4 className="gray invisible">$4687.29</h4>
+                </div>
+              </div>
+              <div>
+                <img src={CoinTwo} alt="" />
+                <div>
+                  <h4 className="big normal">0.92 ETH</h4>
+                  <h4 className="gray invisible">$1767.58</h4>
+                </div>
+              </div>
+              <div>
+                <img src={CoinThree} alt="" />
+                <div>
+                  <h4 className="big normal">1.33 ETH</h4>
+                  <h4 className="gray invisible">$2555.30</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="Batch--Tickets--Price">
+            <h4 className="gray">Ticket Price:</h4>
+            <div>
+              <h4 className="normal">{bidPrice.ethValue} ETH</h4>
+              <h4 className="gray">${bidPrice.usdValue}</h4>
+            </div>
+          </div>
+          <div className="Batch--Tickets--Sold">
+            <h4 className="gray">Sold tickets:</h4>
+            <div>
+              <h4 className="normal">{parseInt(bidCount)}</h4>
+              <h4
+                className="transaction"
+                onClick={() => setIsTransactionModal(true)}
+              >
+                Transactions
+              </h4>
+            </div>
+          </div>
+          <div className="Batch--Buy--Container">
+            <div className="Batch--Add--Button">
+              <img
+                className={tickets === 1 ? "btn--disable" : "decrement--button"}
+                src={LeftArrowBtn}
+                alt=""
+                onClick={HandleRemoveTicket}
+              />
+              <h4>{tickets}</h4>
+              <img
+                className={
+                  tickets === 999 ? "btn--disable" : "increment--button"
+                }
+                src={RightArrowBtn}
+                alt=""
+                onClick={HandleAddTicket}
+              />
+            </div>
+            {isTransactionOngoing ? (
+              <div
+                className="Batch--Transaction--Button"
+                onClick={HandleBuyTickets}
+              >
+                <h4>
+                  Transaction<span className="dot1">.</span>
+                  <span className="dot2">.</span>
+                  <span className="dot3">.</span>
+                </h4>
+              </div>
+            ) : (
+              <div className="Batch--Buy--Button" onClick={HandleBuyTickets}>
+                <h4>
+                  Buy {(+bidPrice.ethValue * tickets).toFixed(3)} ETH {tickets}{" "}
+                  Tickets
+                </h4>
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
