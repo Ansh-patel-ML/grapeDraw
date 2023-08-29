@@ -14,15 +14,29 @@ const RenderBatchs = ({ batchInfo }) => {
   return (
     <>
       {isLoading && (
-        <TailSpin
-          height="40"
-          width="40"
-          color="#4fa94d"
-          ariaLabel="tail-spin-loading"
-          radius="1"
-          wrapperClass=""
-          visible={true}
-        />
+        <>
+          <TailSpin
+            height="40"
+            width="40"
+            color="#4fa94d"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{
+              justifyContent: "center",
+            }}
+            visible={true}
+          />
+          <h4
+            className="gray"
+            style={{
+              textAlign: "center",
+              marginLeft: "15px",
+              marginTop: "15px",
+            }}
+          >
+            Searching for Batches...
+          </h4>
+        </>
       )}
       {!isLoading && (
         <>
@@ -38,6 +52,8 @@ const RenderBatchs = ({ batchInfo }) => {
                   batchInfo={activeContract}
                   key={index}
                   contractAddress={batchInfo.address}
+                  batchDuration={batchInfo.duration}
+                  bidPriceInWei={batchInfo.bidPrice}
                 />
               );
             })}

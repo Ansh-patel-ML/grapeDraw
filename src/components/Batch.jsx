@@ -9,12 +9,7 @@ import RightArrowBtn from "../assets/Icons/RightArrowBtn.svg";
 import InfoIcon from "../assets/Icons/16.svg";
 import { WalletContext } from "../App";
 import ConnectMetaMask from "./modals/ConnectMetaMask";
-import {
-  _Bid,
-  _getBidCount,
-  _getBidPrice,
-  _getLottriesInfo,
-} from "../ContractFunctions";
+import { _Bid, _getBidCount, _getBidPrice } from "../ContractFunctions";
 import MessagePopUp from "./modals/MessagePopUp";
 import GrapeDraw from "../contracts/GrapeDraw.json";
 import "./Batch.css";
@@ -22,10 +17,16 @@ import { TailSpin } from "react-loader-spinner";
 import TransactionErrorModal from "./modals/TransactionErrorModal";
 import MetaMaskNotFoundModal from "./modals/MetaMaskNotFoundModal";
 import TransactionModal from "./modals/TransactionModal";
+import { useQuery } from "react-query";
 
-const Batch = ({ batchInfo, contractAddress }) => {
+const Batch = ({
+  batchInfo,
+  contractAddress,
+  batchDuration,
+  bidPriceInWei,
+}) => {
   const [tickets, SetTickets] = useState(1);
-  const [bidCount, setBidCount] = useState(0);
+  const [bidCount, setBidCount] = useState(null);
   const [bidPrice, setBidPrice] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [isConnectedPopUp, setIsConnectedPopUp] = useState(false);
@@ -37,6 +38,36 @@ const Batch = ({ batchInfo, contractAddress }) => {
   const [contractInstance, setContractInstance] = useState(null);
   const { metaMaskAccountInfo } = useContext(WalletContext);
   const [endTime, setEndTime] = useState(false);
+  const [callNetworkData, setCallNetworkData] = useState(false);
+
+  const closeTransactionErrorModal = () => setTransactionErrorModal(false);
+  const closePopUp = () => setIsConnectedPopUp(false);
+
+  const { data: ethPriceInUSD } = useQuery(
+    ["networkData"],
+    async () => {
+      const response = await fetch(`http://44.203.188.29/networkData`);
+      const data = await response.json();
+      return data;
+    },
+    {
+      enabled: callNetworkData,
+    }
+  );
+
+  const { data: transaction } = useQuery(
+    ["transaction", batchInfo.id],
+    async () => {
+      const response = await fetch(
+        `http://44.203.188.29/bid/batch/${batchInfo.id}`
+      );
+      const data = await response.json();
+      return data;
+    },
+    {
+      enabled: callNetworkData,
+    }
+  );
 
   const closeConnectModal = (isConnected, address) => {
     setOpenModal(false);
@@ -48,9 +79,6 @@ const Batch = ({ batchInfo, contractAddress }) => {
       }, 7000);
     }
   };
-
-  const closeTransactionErrorModal = () => setTransactionErrorModal(false);
-  const closePopUp = () => setIsConnectedPopUp(false);
 
   const HandleRemoveTicket = () => {
     if (tickets > 1) {
@@ -83,6 +111,29 @@ const Batch = ({ batchInfo, contractAddress }) => {
     }
   };
 
+  const hoursToPeriod = (hours) => {
+    if (hours >= 24 * 7) {
+      return "weekly";
+    } else if (hours >= 24) {
+      return "daily";
+    } else if (hours >= 1) {
+      return "hourly";
+    } else {
+      return "less than an hour";
+    }
+  };
+
+  const getTransactionAmount = (transaction) => {
+    const transactionAmount = transaction.items.reduce((acc, curr) => {
+      if (!acc.amount) {
+        acc["amount"] = 0;
+      }
+      acc["amount"] += curr["ticketsAmount"];
+      return acc;
+    }, {});
+    return transactionAmount.amount;
+  };
+
   useEffect(() => {
     if (metaMaskAccountInfo.web3) {
       const contract = new metaMaskAccountInfo.web3.eth.Contract(
@@ -90,8 +141,11 @@ const Batch = ({ batchInfo, contractAddress }) => {
         contractAddress
       );
       setContractInstance(contract);
+      setCallNetworkData(false);
       _getBidCount(contract, setBidCount);
       _getBidPrice(contract, setBidPrice, metaMaskAccountInfo.web3);
+    } else {
+      setCallNetworkData(true);
     }
   }, []);
 
@@ -106,7 +160,7 @@ const Batch = ({ batchInfo, contractAddress }) => {
       )}
       {transactionStatusPopUp && (
         <MessagePopUp
-          message={`You've successfully purchased ${tickets} tickets for Batch #134`}
+          message={`You've successfully purchased ${tickets} tickets for Batch #${batchInfo.id}`}
           closePopUp={closePopUp}
         />
       )}
@@ -134,13 +188,18 @@ const Batch = ({ batchInfo, contractAddress }) => {
           <div className="Batch--Time--Stats">
             <div>
               <h4 className="gray grow">Period:</h4>
-              <h4>Daily</h4>
+              <h4>{`${hoursToPeriod(batchDuration / 3600)
+                .charAt(0)
+                .toUpperCase()}${hoursToPeriod(batchDuration / 3600).slice(
+                1
+              )}`}</h4>
             </div>
             <div>
               <h4 className="gray grow">Ends in:</h4>
               <Countdown
-                date={new Date("08/24/2023 10:30:00 PM")}
+                date={new Date(batchInfo.endTime * 1000)}
                 className="countdown"
+                daysInHours="true"
               />
             </div>
           </div>
@@ -199,12 +258,16 @@ const Batch = ({ batchInfo, contractAddress }) => {
           <div className="Batch--Time--Stats">
             <div>
               <h4 className="gray grow">Period:</h4>
-              <h4>Daily</h4>
+              <h4>{`${hoursToPeriod(batchDuration / 3600)
+                .charAt(0)
+                .toUpperCase()}${hoursToPeriod(batchDuration / 3600).slice(
+                1
+              )}`}</h4>
             </div>
             <div>
               <h4 className="gray grow">Ends in:</h4>
               <Countdown
-                date={new Date("08/24/2023 10:30:00 PM")}
+                date={new Date(batchInfo.endTime * 1000)}
                 onComplete={() => setEndTime(true)}
                 className="countdown"
                 daysInHours={true}
@@ -243,14 +306,29 @@ const Batch = ({ batchInfo, contractAddress }) => {
           <div className="Batch--Tickets--Price">
             <h4 className="gray">Ticket Price:</h4>
             <div>
-              <h4 className="normal">{bidPrice.ethValue} ETH</h4>
-              <h4 className="gray">${bidPrice.usdValue}</h4>
+              <h4 className="normal">
+                {callNetworkData ? bidPriceInWei / 10 ** 18 : bidPrice.ethValue}{" "}
+                ETH
+              </h4>
+              <h4 className="gray">
+                $
+                {callNetworkData && ethPriceInUSD
+                  ? (
+                      ethPriceInUSD.ethPrice *
+                      (bidPriceInWei / 10 ** 18)
+                    ).toFixed(2)
+                  : bidPrice.usdValue}
+              </h4>
             </div>
           </div>
           <div className="Batch--Tickets--Sold">
             <h4 className="gray">Sold tickets:</h4>
             <div>
-              <h4 className="normal">{parseInt(bidCount)}</h4>
+              <h4 className="normal">
+                {bidCount === null && transaction
+                  ? getTransactionAmount(transaction)
+                  : parseInt(bidCount)}
+              </h4>
               <h4
                 className="transaction"
                 onClick={() => setIsTransactionModal(true)}
@@ -291,8 +369,11 @@ const Batch = ({ batchInfo, contractAddress }) => {
             ) : (
               <div className="Batch--Buy--Button" onClick={HandleBuyTickets}>
                 <h4>
-                  Buy {(+bidPrice.ethValue * tickets).toFixed(3)} ETH {tickets}{" "}
-                  Tickets
+                  Buy{" "}
+                  {callNetworkData
+                    ? ((bidPriceInWei / 10 ** 18) * tickets).toFixed(3)
+                    : (+bidPrice.ethValue * tickets).toFixed(3)}{" "}
+                  ETH {tickets} Tickets
                 </h4>
               </div>
             )}

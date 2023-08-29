@@ -1,57 +1,26 @@
 import React, { useContext, useState } from "react";
 import { MetaMaskAvatar } from "react-metamask-avatar";
-
+import { useQuery } from "react-query";
 import "./ShowRewardHistory.css";
 import { WalletContext } from "../App";
 import NotificationPanel from "./NotificationPanel";
 import BoughtTicketsModal from "./modals/BoughtTicketsModal";
-
-const tempData = [
-  {
-    id: 1,
-    message: "#138",
-    date: "June 23, 2023 at 9:59 AM UTC",
-  },
-  {
-    id: 2,
-    message: "#134",
-    date: "June 21, 2023 at 10:59 AM UTC",
-  },
-  {
-    id: 3,
-    message: "#132",
-    date: "June 20, 2023 at 9:59 AM UTC",
-  },
-  {
-    id: 4,
-    message: "#131",
-    date: "June 19, 2023 at 9:59 AM UTC",
-  },
-  {
-    id: 5,
-    message: "#130",
-    date: "June 18, 2023 at 9:59 AM UTC",
-  },
-  {
-    id: 6,
-    message: "#129",
-    date: "June 17, 2023 at 9:59 AM UTC",
-  },
-  {
-    id: 7,
-    message: "#128",
-    date: "June 16, 2023 at 9:59 AM UTC",
-  },
-  {
-    id: 8,
-    message: "#127",
-    date: "June 15, 2023 at 9:59 AM UTC",
-  },
-];
+import { TailSpin } from "react-loader-spinner";
 
 const ShowRewardHistory = () => {
   const { metaMaskAccountInfo } = useContext(WalletContext);
   const [boughtTicketsModal, setBoughtTicketsModal] = useState(false);
+
+  const { data: winningBatch, isLoading } = useQuery(
+    ["userWinningBatch"],
+    async () => {
+      const response = await fetch(
+        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}`
+      );
+      const data = await response.json();
+      return data;
+    }
+  );
 
   return (
     <>
@@ -64,13 +33,39 @@ const ShowRewardHistory = () => {
         </div>
         <div className="ShowRewards--Main">
           <div className="Notification">
-            <h4 className="Grey">Notifications:</h4>
-            <h4 className="Blue">Clear</h4>
+            {winningBatch?.items?.length === 0 ? (
+              ""
+            ) : (
+              <h4 className="Grey">Notifications:</h4>
+            )}
+            {winningBatch?.items?.length >= 1 && (
+              <h4 className="Blue">Clear</h4>
+            )}
           </div>
           <div className="ShowRewards--Notification--Container">
-            {tempData.map((data) => {
-              return <NotificationPanel data={data} key={data.id} />;
-            })}
+            {!isLoading &&
+              winningBatch &&
+              winningBatch.items.map((data) => {
+                return <NotificationPanel data={data} key={data.id} />;
+              })}
+            {isLoading && (
+              <TailSpin
+                height="30"
+                width="30"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{
+                  justifyContent: "center",
+                }}
+                visible={true}
+              />
+            )}
+            {winningBatch?.items?.length === 0 && (
+              <h4 className="gray" style={{ textAlign: "center" }}>
+                No Notification
+              </h4>
+            )}
           </div>
         </div>
         <div className="ShowRewards--Footer">
