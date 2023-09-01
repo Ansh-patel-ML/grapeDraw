@@ -16,7 +16,6 @@ const Header = () => {
 
   const headerRef = useRef(null);
   const { metaMaskAccountInfo } = useContext(WalletContext);
-  
 
   const handleResize = (entries) => {
     for (let entry of entries) {

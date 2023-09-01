@@ -44,17 +44,11 @@ const Batch = ({
   const closePopUp = () => setIsConnectedPopUp(false);
   const closeTransactionPopUp = () => setTransactionStatusPopUp(false);
 
-  const { data: ethPriceInUSD } = useQuery(
-    ["networkData"],
-    async () => {
-      const response = await fetch(`http://44.203.188.29/networkData`);
-      const data = await response.json();
-      return data;
-    },
-    {
-      enabled: callNetworkData,
-    }
-  );
+  const { data: ethPriceInUSD } = useQuery(["networkData"], async () => {
+    const response = await fetch(`http://44.203.188.29/networkData`);
+    const data = await response.json();
+    return data;
+  });
 
   const { data: transaction } = useQuery(
     ["transaction", batchInfo.id],
@@ -184,7 +178,7 @@ const Batch = ({
           <h4>Ethereum</h4>
         </div>
       </div>
-      {endTime ? (
+      {/* {endTime ? (
         <>
           <div className="Batch--Time--Stats">
             <div>
@@ -254,133 +248,148 @@ const Batch = ({
             </div>
           </div>
         </>
-      ) : (
-        <>
-          <div className="Batch--Time--Stats">
-            <div>
-              <h4 className="gray grow">Period:</h4>
-              <h4>{`${hoursToPeriod(batchDuration / 3600)
-                .charAt(0)
-                .toUpperCase()}${hoursToPeriod(batchDuration / 3600).slice(
-                1
-              )}`}</h4>
-            </div>
-            <div>
-              <h4 className="gray grow">Ends in:</h4>
-              <Countdown
-                date={new Date(batchInfo.endTime * 1000)}
-                onComplete={() => setEndTime(true)}
-                className="countdown"
-                daysInHours={true}
-              />
-            </div>
+      ) : ( */}
+      <>
+        <div className="Batch--Time--Stats">
+          <div>
+            <h4 className="gray grow">Period:</h4>
+            <h4>{`${hoursToPeriod(batchDuration / 3600)
+              .charAt(0)
+              .toUpperCase()}${hoursToPeriod(batchDuration / 3600).slice(
+              1
+            )}`}</h4>
           </div>
-          <div className="Batch--Price--Stats">
-            <div className="Batch--Price--Stats--Info">
-              <h4 className="gray">Grand prizes</h4>
-              <img src={InfoIcon} alt="" />
-            </div>
-            <div className="Batch--Price--Container">
+          <div>
+            <h4 className="gray grow">Ends in:</h4>
+            <Countdown
+              date={new Date(batchInfo.endTime * 1000)}
+              onComplete={() => setEndTime(true)}
+              className="countdown"
+              daysInHours={true}
+            />
+          </div>
+        </div>
+        <div className="Batch--Price--Stats">
+          <div className="Batch--Price--Stats--Info">
+            <h4 className="gray">Grand prizes</h4>
+            <img src={InfoIcon} alt="" />
+          </div>
+          <div className="Batch--Price--Container">
+            <div>
+              <img src={CoinOne} alt="" />
               <div>
-                <img src={CoinOne} alt="" />
-                <div>
-                  <h4 className="big normal">2.44 ETH</h4>
-                  <h4 className="gray invisible">$4687.29</h4>
-                </div>
-              </div>
-              <div>
-                <img src={CoinTwo} alt="" />
-                <div>
-                  <h4 className="big normal">0.92 ETH</h4>
-                  <h4 className="gray invisible">$1767.58</h4>
-                </div>
-              </div>
-              <div>
-                <img src={CoinThree} alt="" />
-                <div>
-                  <h4 className="big normal">1.33 ETH</h4>
-                  <h4 className="gray invisible">$2555.30</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="Batch--Tickets--Price">
-            <h4 className="gray">Ticket Price:</h4>
-            <div>
-              <h4 className="normal">
-                {callNetworkData ? bidPriceInWei / 10 ** 18 : bidPrice.ethValue}{" "}
-                ETH
-              </h4>
-              <h4 className="gray">
-                $
-                {callNetworkData && ethPriceInUSD
-                  ? (
-                      ethPriceInUSD.ethPrice *
-                      (bidPriceInWei / 10 ** 18)
-                    ).toFixed(2)
-                  : bidPrice.usdValue}
-              </h4>
-            </div>
-          </div>
-          <div className="Batch--Tickets--Sold">
-            <h4 className="gray">Sold tickets:</h4>
-            <div>
-              <h4 className="normal">
-                {bidCount === null && transaction
-                  ? getTransactionAmount(transaction)
-                  : parseInt(bidCount)}
-              </h4>
-              <h4
-                className="transaction"
-                onClick={() => setIsTransactionModal(true)}
-              >
-                Transactions
-              </h4>
-            </div>
-          </div>
-          <div className="Batch--Buy--Container">
-            <div className="Batch--Add--Button">
-              <img
-                className={tickets === 1 ? "btn--disable" : "decrement--button"}
-                src={LeftArrowBtn}
-                alt=""
-                onClick={HandleRemoveTicket}
-              />
-              <h4>{tickets}</h4>
-              <img
-                className={
-                  tickets === 999 ? "btn--disable" : "increment--button"
-                }
-                src={RightArrowBtn}
-                alt=""
-                onClick={HandleAddTicket}
-              />
-            </div>
-            {isTransactionOngoing ? (
-              <div
-                className="Batch--Transaction--Button"
-                onClick={HandleBuyTickets}
-              >
-                <h4>
-                  Transaction<span className="dot1">.</span>
-                  <span className="dot2">.</span>
-                  <span className="dot3">.</span>
+                <h4 className="big normal">
+                  {batchInfo.amount1 / 10 ** 18} ETH
+                </h4>
+                <h4 className="gray invisible">
+                  $
+                  {ethPriceInUSD.ethPrice *
+                    (batchInfo.amount1 / 10 ** 18).toFixed(2)}
                 </h4>
               </div>
-            ) : (
-              <div className="Batch--Buy--Button" onClick={HandleBuyTickets}>
-                <h4>
-                  Buy{" "}
-                  {callNetworkData
-                    ? ((bidPriceInWei / 10 ** 18) * tickets).toFixed(3)
-                    : (+bidPrice.ethValue * tickets).toFixed(3)}{" "}
-                  ETH {tickets} Tickets
+            </div>
+            <div>
+              <img src={CoinTwo} alt="" />
+              <div>
+                <h4 className="big normal">
+                  {batchInfo.amount2 / 10 ** 18} ETH
+                </h4>
+                <h4 className="gray invisible">
+                  $
+                  {ethPriceInUSD.ethPrice *
+                    (batchInfo.amount2 / 10 ** 18).toFixed(2)}
                 </h4>
               </div>
-            )}
+            </div>
+            <div>
+              <img src={CoinThree} alt="" />
+              <div>
+                <h4 className="big normal">
+                  {batchInfo.amount3 / 10 ** 18} ETH
+                </h4>
+                <h4 className="gray invisible">
+                  $
+                  {ethPriceInUSD.ethPrice *
+                    (batchInfo.amount3 / 10 ** 18).toFixed(2)}
+                </h4>
+              </div>
+            </div>
           </div>
-        </>
-      )}
+        </div>
+        <div className="Batch--Tickets--Price">
+          <h4 className="gray">Ticket Price:</h4>
+          <div>
+            <h4 className="normal">
+              {callNetworkData ? bidPriceInWei / 10 ** 18 : bidPrice.ethValue}{" "}
+              ETH
+            </h4>
+            <h4 className="gray">
+              $
+              {callNetworkData && ethPriceInUSD
+                ? (ethPriceInUSD.ethPrice * (bidPriceInWei / 10 ** 18)).toFixed(
+                    2
+                  )
+                : bidPrice.usdValue}
+            </h4>
+          </div>
+        </div>
+        <div className="Batch--Tickets--Sold">
+          <h4 className="gray">Sold tickets:</h4>
+          <div>
+            <h4 className="normal">
+              {bidCount === null && transaction
+                ? getTransactionAmount(transaction)
+                : parseInt(bidCount)}
+            </h4>
+            <h4
+              className="transaction"
+              onClick={() => setIsTransactionModal(true)}
+            >
+              Transactions
+            </h4>
+          </div>
+        </div>
+        <div className="Batch--Buy--Container">
+          <div className="Batch--Add--Button">
+            <img
+              className={tickets === 1 ? "btn--disable" : "decrement--button"}
+              src={LeftArrowBtn}
+              alt=""
+              onClick={HandleRemoveTicket}
+            />
+            <h4>{tickets}</h4>
+            <img
+              className={tickets === 999 ? "btn--disable" : "increment--button"}
+              src={RightArrowBtn}
+              alt=""
+              onClick={HandleAddTicket}
+            />
+          </div>
+          {isTransactionOngoing ? (
+            <div
+              className="Batch--Transaction--Button"
+              onClick={HandleBuyTickets}
+            >
+              <h4>
+                Transaction<span className="dot1">.</span>
+                <span className="dot2">.</span>
+                <span className="dot3">.</span>
+              </h4>
+            </div>
+          ) : (
+            <div className="Batch--Buy--Button" onClick={HandleBuyTickets}>
+              <h4>
+                Buy{" "}
+                {callNetworkData
+                  ? ((bidPriceInWei / 10 ** 18) * tickets).toFixed(3)
+                  : (+bidPrice.ethValue * tickets).toFixed(3)}{" "}
+                ETH {tickets} Tickets
+              </h4>
+            </div>
+          )}
+        </div>
+      </>
+      {/* )} */}
     </div>
   );
 };
