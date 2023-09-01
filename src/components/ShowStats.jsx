@@ -184,13 +184,16 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
                 </div>
               </div>
             </div>
-
-            <div className="stats--payout">
-              <img src={Trust} alt="" />
-              <p onClick={() => setIsPayoutTransactionModal(true)}>
-                Payout Transaction
-              </p>
-            </div>
+            {batchInfo?.state !== "active" && (
+              <>
+                <div className="stats--payout">
+                  <img src={Trust} alt="" />
+                  <p onClick={() => setIsPayoutTransactionModal(true)}>
+                    Payout Transaction
+                  </p>
+                </div>
+              </>
+            )}
             <hr />
 
             <div>

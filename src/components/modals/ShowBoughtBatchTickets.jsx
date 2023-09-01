@@ -10,8 +10,6 @@ import { WalletContext } from "../../App";
 const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
   const { metaMaskAccountInfo } = useContext(WalletContext);
 
-  const rewardBatch = modalText === "Rewards Tickets" ? true : false;
-  const archivedBatch = modalText === "Bought Tickets" ? true : false;
   const { data: userRewardBatches } = useQuery(
     ["WinningBatch"],
     async () => {
@@ -22,26 +20,23 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
       return data;
     },
     {
-      enabled: rewardBatch && metaMaskAccountInfo.address !== null,
+      enabled:
+        modalText === "Rewards Tickets" && metaMaskAccountInfo.address !== null,
     }
   );
 
   const { data: allArchivedBatch } = useQuery(
-    ["allArchivedBatch"],
+    ["allArchivedBatchs"],
     async () => {
       const response = await fetch(
         `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=all`
       );
       const data = await response.json();
-      const archivedBatch = data.items.filter((batch) => {
-        if (batch.state === "archived") {
-          return batch;
-        }
-      });
-      return archivedBatch;
+      return data;
     },
     {
-      enabled: archivedBatch && metaMaskAccountInfo.address !== null,
+      enabled:
+        modalText === "Bought Tickets" && metaMaskAccountInfo.address !== null,
     }
   );
 
@@ -77,9 +72,13 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
         </div>
         <div className="bought--tickets--body">
           {userRewardBatches?.items?.length >= 1 &&
-            userRewardBatches.items.map((value, index) => (
+            userRewardBatches.items.map((value) => (
               <>
-                <ShowStats key={index} isOpenInModal={true} batchInfo={value} />
+                <ShowStats
+                  key={value.id}
+                  isOpenInModal={true}
+                  batchInfo={value}
+                />
               </>
             ))}
           {userRewardBatches?.items?.length === 0 && (
@@ -91,18 +90,22 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
             <button className="stats--button">More Batches</button>
           )}
 
-          {allArchivedBatch?.length >= 1 &&
-            allArchivedBatch.map((value, index) => (
+          {allArchivedBatch?.items?.length >= 1 &&
+            allArchivedBatch.items.map((value) => (
               <>
-                <ShowStats key={index} isOpenInModal={true} batchInfo={value} />
+                <ShowStats
+                  key={value.id}
+                  isOpenInModal={true}
+                  batchInfo={value}
+                />
               </>
             ))}
-          {allArchivedBatch?.length === 0 && (
+          {allArchivedBatch?.items?.length === 0 && (
             <h2 style={{ marginTop: "40px", textAlign: "center" }}>
               No {modalText} Found
             </h2>
           )}
-          {allArchivedBatch?.length >= 1 && (
+          {allArchivedBatch?.items?.length >= 1 && (
             <button className="stats--button">More Batches</button>
           )}
         </div>
