@@ -16,10 +16,26 @@ const ShowRewardHistory = () => {
     ["userWinningBatch"],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}`
+        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=winnings`
       );
       const data = await response.json();
       return data;
+    }
+  );
+
+  const { data: allArchivedBatch } = useQuery(
+    ["allArchivedBatch"],
+    async () => {
+      const response = await fetch(
+        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=all`
+      );
+      const data = await response.json();
+      const archivedBatch = data.items.filter((batch) => {
+        if (batch.state === "archived") {
+          return batch;
+        }
+      });
+      return archivedBatch;
     }
   );
 
@@ -33,7 +49,7 @@ const ShowRewardHistory = () => {
         <div className="ShowRewards--Header">
           <h4>My Tickets</h4>
           <h4 className="Blue" onClick={() => setBoughtTicketsModal(true)}>
-            29 Tickets
+            {allArchivedBatch && allArchivedBatch.length} Tickets
           </h4>
         </div>
         <div className="ShowRewards--Main">

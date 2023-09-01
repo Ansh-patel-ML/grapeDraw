@@ -5,7 +5,7 @@ import MessagePopUp from "./modals/MessagePopUp";
 import ConnectWallet from "./ConnectWallet";
 import ShowRewardHistory from "./ShowRewardHistory";
 import MetaMaskNotFoundModal from "./modals/MetaMaskNotFoundModal";
-
+import { useQuery } from "react-query";
 import "./Stats.css";
 import ShowStats from "./ShowStats";
 
@@ -22,7 +22,21 @@ const Stats = ({ width }) => {
   const [highlightButton, setHighlightButton] = useState({
     isRewardOpen: true,
     isStatsOpen: false,
-  });   
+  });
+
+  const { data: userRewardBatches } = useQuery(
+    ["WinningBatch"],
+    async () => {
+      const response = await fetch(
+        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=winnings`
+      );
+      const data = await response.json();
+      return data.items[0];
+    },
+    {
+      enabled: metaMaskAccountInfo.address !== null,
+    }
+  );
 
   const closePopUp = () => setIsConnectedPopUp(false);
   const closeConnectModal = (isConnected, address) => {
@@ -48,8 +62,8 @@ const Stats = ({ width }) => {
     if (!metaMaskAccountInfo.address && !metaMaskAccountInfo.isConnected) {
       setHighlightButton((prev) => {
         if (prev.isStatsOpen) {
-          setShowConnectRewardsWallet(true)
-          setShowConnectStatsWallet(false)
+          setShowConnectRewardsWallet(true);
+          setShowConnectStatsWallet(false);
           return {
             isRewardOpen: !prev.isRewardOpen,
             isStatsOpen: false,
@@ -57,10 +71,10 @@ const Stats = ({ width }) => {
         } else {
           if (prev.isRewardOpen) {
             setShowConnectRewardsWallet(false);
-            setShowConnectStatsWallet(false)
+            setShowConnectStatsWallet(false);
           } else {
             setShowConnectRewardsWallet(true);
-            setShowConnectStatsWallet(false)
+            setShowConnectStatsWallet(false);
           }
           return {
             ...prev,
@@ -82,7 +96,7 @@ const Stats = ({ width }) => {
           };
         }
       });
-      setShowStatsHistory(false)
+      setShowStatsHistory(false);
       setShowRewardHistory((prev) => !prev);
     }
   };
@@ -99,8 +113,8 @@ const Stats = ({ width }) => {
     if (!metaMaskAccountInfo.address && !metaMaskAccountInfo.isConnected) {
       setHighlightButton((prev) => {
         if (prev.isRewardOpen) {
-          setShowConnectStatsWallet(true)
-          setShowConnectRewardsWallet(false)
+          setShowConnectStatsWallet(true);
+          setShowConnectRewardsWallet(false);
           return {
             isRewardOpen: false,
             isStatsOpen: !prev.isStatsOpen,
@@ -111,7 +125,7 @@ const Stats = ({ width }) => {
             setShowConnectRewardsWallet(false);
           } else {
             setShowConnectStatsWallet(true);
-            setShowConnectRewardsWallet(false)
+            setShowConnectRewardsWallet(false);
           }
           return {
             ...prev,
@@ -127,13 +141,13 @@ const Stats = ({ width }) => {
             isStatsOpen: !prev.isStatsOpen,
           };
         } else {
-          return { 
+          return {
             ...prev,
             isStatsOpen: !prev.isStatsOpen,
           };
         }
       });
-      setShowRewardHistory(false)
+      setShowRewardHistory(false);
       setShowStatsHistory((prev) => !prev);
     }
   };
@@ -189,7 +203,7 @@ const Stats = ({ width }) => {
               <ShowRewardHistory />
             )}
             {metaMaskAccountInfo.address && showStatsHistory && (
-              <ShowStats isOpenInModal={false}/>
+              <ShowStats isOpenInModal={false} batchInfo={userRewardBatches} />
             )}
           </div>
         </>
@@ -204,7 +218,7 @@ const Stats = ({ width }) => {
             />
           )}
           {metaMaskAccountInfo.address && <ShowRewardHistory />}
-          <ShowStats isOpenInModal={false}/> 
+          <ShowStats isOpenInModal={false} batchInfo={userRewardBatches} />
         </>
       )}
     </div>

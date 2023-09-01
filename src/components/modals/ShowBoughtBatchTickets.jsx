@@ -11,17 +11,37 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
   const { metaMaskAccountInfo } = useContext(WalletContext);
 
   const rewardBatch = modalText === "Rewards Tickets" ? true : false;
+  const archivedBatch = modalText === "Bought Tickets" ? true : false;
   const { data: userRewardBatches } = useQuery(
     ["WinningBatch"],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}`
+        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=winnings`
       );
       const data = await response.json();
       return data;
     },
     {
       enabled: rewardBatch && metaMaskAccountInfo.address !== null,
+    }
+  );
+
+  const { data: allArchivedBatch } = useQuery(
+    ["allArchivedBatch"],
+    async () => {
+      const response = await fetch(
+        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=all`
+      );
+      const data = await response.json();
+      const archivedBatch = data.items.filter((batch) => {
+        if (batch.state === "archived") {
+          return batch;
+        }
+      });
+      return archivedBatch;
+    },
+    {
+      enabled: archivedBatch && metaMaskAccountInfo.address !== null,
     }
   );
 
@@ -62,7 +82,29 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
                 <ShowStats key={index} isOpenInModal={true} batchInfo={value} />
               </>
             ))}
-          <button className="stats--button">More Batches</button>
+          {userRewardBatches?.items?.length === 0 && (
+            <h2 style={{ marginTop: "40px", textAlign: "center" }}>
+              No {modalText} Found
+            </h2>
+          )}
+          {userRewardBatches?.items?.length >= 1 && (
+            <button className="stats--button">More Batches</button>
+          )}
+
+          {allArchivedBatch?.length >= 1 &&
+            allArchivedBatch.map((value, index) => (
+              <>
+                <ShowStats key={index} isOpenInModal={true} batchInfo={value} />
+              </>
+            ))}
+          {allArchivedBatch?.length === 0 && (
+            <h2 style={{ marginTop: "40px", textAlign: "center" }}>
+              No {modalText} Found
+            </h2>
+          )}
+          {allArchivedBatch?.length >= 1 && (
+            <button className="stats--button">More Batches</button>
+          )}
         </div>
       </div>
     </>,

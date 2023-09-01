@@ -39,7 +39,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
       return ticketsAmount;
     },
     {
-      enabled: metaMaskAccountInfo.address !== null,
+      enabled: metaMaskAccountInfo.address !== null && batchInfo !== undefined,
     }
   );
 
@@ -52,6 +52,9 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
         (val) => val.id === batchInfo?.contractId
       )[0];
       return contractById;
+    },
+    {
+      enabled: batchInfo === undefined ? false : true,
     }
   );
 
@@ -108,7 +111,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
       acc["amount"] += curr["ticketsAmount"];
       return acc;
     }, {});
-    return transactionAmount.amount;
+    return transactionAmount?.amount;
   };
 
   return (
@@ -124,107 +127,122 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
             <hr />
           </>
         )}
+        {batchInfo === undefined ? (
+          <>
+            <h2 style={{ textAlign: "center" }}>No Stats Found</h2>
+          </>
+        ) : (
+          <>
+            <p className="stats--batch--no">{`Batch #${batchInfo?.id}`}</p>
+            <div className="stats--batch--tickets">
+              <div>Bought Tickets :</div>
+              <p>{userWinningBatchTotalTickets?.ticketAmount}</p>
+            </div>
+            <hr />
 
-        <p className="stats--batch--no">{`Batch #${batchInfo?.id}`}</p>
-        <div className="stats--batch--tickets">
-          <div>Bought Tickets :</div>
-          <p>{userWinningBatchTotalTickets?.ticketAmount}</p>
-        </div>
-        <hr />
+            <div className="stats--coins">
+              <div
+                className={
+                  batchInfo?.["winner1"] === metaMaskAccountInfo.address
+                    ? "stats--coin--position won"
+                    : "stats--coin--position"
+                }
+              >
+                <img src={CoinOne} alt="" />
+                <div>
+                  <p className={isOpenInModal && "adjust--text--size"}>
+                    {batchInfo.amount1 / 10 ** 18} ETH
+                  </p>
+                </div>
+              </div>
+              <div
+                className={
+                  batchInfo?.["winner1"] === metaMaskAccountInfo.address
+                    ? "stats--coin--position won"
+                    : "stats--coin--position"
+                }
+              >
+                <img src={CoinTwo} alt="" />
+                <div>
+                  <p className={isOpenInModal && "adjust--text--size"}>
+                    {batchInfo.amount2 / 10 ** 18} ETH
+                  </p>
+                </div>
+              </div>
+              <div
+                className={
+                  batchInfo?.["winner1"] === metaMaskAccountInfo.address
+                    ? "stats--coin--position won"
+                    : "stats--coin--position"
+                }
+              >
+                <img src={CoinThree} alt="" />
+                <div>
+                  <p className={isOpenInModal && "adjust--text--size"}>
+                    {batchInfo.amount3 / 10 ** 18} ETH
+                  </p>
+                </div>
+              </div>
+            </div>
 
-        <div className="stats--coins">
-          <div
-            className={
-              batchInfo?.["winner1"] === metaMaskAccountInfo.address
-                ? "stats--coin--position won"
-                : "stats--coin--position"
-            }
-          >
-            <img src={CoinOne} alt="" />
+            <div className="stats--payout">
+              <img src={Trust} alt="" />
+              <p onClick={() => setIsPayoutTransactionModal(true)}>
+                Payout Transaction
+              </p>
+            </div>
+            <hr />
+
             <div>
-              <p className={isOpenInModal && "adjust--text--size"}>2.44 ETH</p>
+              <div className="stats--batch--tickets">
+                <div>Blockchain :</div>
+                <div className="stats--batch--tickets--div">
+                  <img src={EtheriumIcon} alt="" />
+                  <p>Ethereum</p>
+                </div>
+              </div>
+              <div className="stats--batch--tickets">
+                <div>Period :</div>
+                <p>
+                  {contractInfo &&
+                    `${hoursToPeriod(contractInfo?.duration / 3600)
+                      .charAt(0)
+                      .toUpperCase()}${hoursToPeriod(
+                      contractInfo?.duration / 3600
+                    ).slice(1)}`}
+                </p>
+              </div>
+              <div className="stats--batch--tickets">
+                <div>Ticket Price:</div>
+                <p>{contractInfo && contractInfo.bidPrice / 10 ** 18} ETH</p>
+              </div>
+              <div className="stats--batch--tickets">
+                <div>Sold Tickets :</div>
+                <p>{transaction && getTransactionAmount(transaction)}</p>
+              </div>
             </div>
-          </div>
-          <div
-            className={
-              batchInfo?.["winner1"] === metaMaskAccountInfo.address
-                ? "stats--coin--position won"
-                : "stats--coin--position"
-            }
-          >
-            <img src={CoinTwo} alt="" />
-            <div>
-              <p className={isOpenInModal && "adjust--text--size"}>1.33 ETH</p>
-            </div>
-          </div>
-          <div
-            className={
-              batchInfo?.["winner1"] === metaMaskAccountInfo.address
-                ? "stats--coin--position won"
-                : "stats--coin--position"
-            }
-          >
-            <img src={CoinThree} alt="" />
-            <div>
-              <p className={isOpenInModal && "adjust--text--size"}>0.92 ETH</p>
-            </div>
-          </div>
-        </div>
+            <hr />
 
-        <div className="stats--payout">
-          <img src={Trust} alt="" />
-          <p onClick={() => setIsPayoutTransactionModal(true)}>
-            Payout Transaction
-          </p>
-        </div>
-        <hr />
-
-        <div>
-          <div className="stats--batch--tickets">
-            <div>Blockchain :</div>
-            <div className="stats--batch--tickets--div">
-              <img src={EtheriumIcon} alt="" />
-              <p>Ethereum</p>
+            <div className="stats--batch--tickets">
+              <div className="stats--closing--date">Closing Date :</div>
+              <div className="stats--batch--closing--date--info">
+                <p>
+                  {formatCustomDate(new Date(batchInfo?.endTime * 1000), 1)}
+                </p>
+                <div>
+                  {formatCustomDate(new Date(batchInfo?.endTime * 1000), 2)}
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="stats--batch--tickets">
-            <div>Period :</div>
-            <p>
-              {contractInfo &&
-                `${hoursToPeriod(contractInfo?.duration / 3600)
-                  .charAt(0)
-                  .toUpperCase()}${hoursToPeriod(
-                  contractInfo?.duration / 3600
-                ).slice(1)}`}
-            </p>
-          </div>
-          <div className="stats--batch--tickets">
-            <div>Ticket Price:</div>
-            <p>{contractInfo && contractInfo.bidPrice / 10 ** 18} ETH</p>
-          </div>
-          <div className="stats--batch--tickets">
-            <div>Sold Tickets :</div>
-            <p>{transaction && getTransactionAmount(transaction)}</p>
-          </div>
-        </div>
-        <hr />
-
-        <div className="stats--batch--tickets">
-          <div className="stats--closing--date">Closing Date :</div>
-          <div className="stats--batch--closing--date--info">
-            <p>{formatCustomDate(new Date(batchInfo?.endTime * 1000), 1)}</p>
-            <div>
-              {formatCustomDate(new Date(batchInfo?.endTime * 1000), 2)}
-            </div>
-          </div>
-        </div>
-        {!isOpenInModal && (
-          <button
-            className="stats--button"
-            onClick={() => setBoughtTicketsModal(true)}
-          >
-            All Reward History
-          </button>
+            {!isOpenInModal && (
+              <button
+                className="stats--button"
+                onClick={() => setBoughtTicketsModal(true)}
+              >
+                All Reward History
+              </button>
+            )}
+          </>
         )}
       </div>
 
