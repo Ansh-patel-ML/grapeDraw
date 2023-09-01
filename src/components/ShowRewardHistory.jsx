@@ -1,15 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MetaMaskAvatar } from "react-metamask-avatar";
 import { useQuery } from "react-query";
 import "./ShowRewardHistory.css";
 import { WalletContext } from "../App";
 import NotificationPanel from "./NotificationPanel";
-import BoughtTicketsModal from "./modals/BoughtTicketsModal";
+import ShowBoughtBatchTickets from "./modals/ShowBoughtBatchTickets";
 import { TailSpin } from "react-loader-spinner";
 
 const ShowRewardHistory = () => {
   const { metaMaskAccountInfo } = useContext(WalletContext);
   const [boughtTicketsModal, setBoughtTicketsModal] = useState(false);
+  const [noNotification, setNoNotification] = useState(false);
 
   const { data: winningBatch, isLoading } = useQuery(
     ["userWinningBatch"],
@@ -22,6 +23,10 @@ const ShowRewardHistory = () => {
     }
   );
 
+  useEffect(() => {
+    setNoNotification(JSON.parse(localStorage.getItem("no-notification")));
+  }, []);
+
   return (
     <>
       <div className="ShowRewards--Container">
@@ -33,17 +38,29 @@ const ShowRewardHistory = () => {
         </div>
         <div className="ShowRewards--Main">
           <div className="Notification">
-            {winningBatch?.items?.length === 0 ? (
+            {noNotification === true || winningBatch?.items?.length === 0 ? (
               ""
             ) : (
               <h4 className="Grey">Notifications:</h4>
             )}
-            {winningBatch?.items?.length >= 1 && (
-              <h4 className="Blue">Clear</h4>
-            )}
+            {noNotification === true ||
+              (winningBatch?.items?.length >= 1 && (
+                <h4
+                  className="Blue"
+                  onClick={() => {
+                    localStorage.setItem(
+                      "no-notification",
+                      JSON.stringify(true)
+                    );
+                    setNoNotification(true);
+                  }}
+                >
+                  Clear
+                </h4>
+              ))}
           </div>
           <div className="ShowRewards--Notification--Container">
-            {!isLoading &&
+            {(noNotification === false || noNotification === null) &&
               winningBatch &&
               winningBatch.items.map((data) => {
                 return <NotificationPanel data={data} key={data.id} />;
@@ -61,7 +78,7 @@ const ShowRewardHistory = () => {
                 visible={true}
               />
             )}
-            {winningBatch?.items?.length === 0 && (
+            {(noNotification === true || winningBatch?.items?.length === 0) && (
               <h4 className="gray" style={{ textAlign: "center" }}>
                 No Notification
               </h4>
@@ -80,7 +97,10 @@ const ShowRewardHistory = () => {
         </div>
       </div>
       {boughtTicketsModal && (
-        <BoughtTicketsModal closeModal={() => setBoughtTicketsModal(false)} />
+        <ShowBoughtBatchTickets
+          closeModal={() => setBoughtTicketsModal(false)}
+          modalText="Bought Tickets"
+        />
       )}
     </>
   );
