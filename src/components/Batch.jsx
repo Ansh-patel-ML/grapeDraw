@@ -42,6 +42,7 @@ const Batch = ({
 
   const closeTransactionErrorModal = () => setTransactionErrorModal(false);
   const closePopUp = () => setIsConnectedPopUp(false);
+  const closeTransactionPopUp = () => setTransactionStatusPopUp(false);
 
   const { data: ethPriceInUSD } = useQuery(
     ["networkData"],
@@ -147,7 +148,7 @@ const Batch = ({
     } else {
       setCallNetworkData(true);
     }
-  }, []);
+  }, [transactionStatusPopUp]);
 
   return (
     <div className="Batch">
@@ -161,7 +162,7 @@ const Batch = ({
       {transactionStatusPopUp && (
         <MessagePopUp
           message={`You've successfully purchased ${tickets} tickets for Batch #${batchInfo.id}`}
-          closePopUp={closePopUp}
+          closePopUp={closeTransactionPopUp}
         />
       )}
       {transactionErrorModal && (

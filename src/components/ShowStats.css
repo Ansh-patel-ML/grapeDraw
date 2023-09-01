@@ -68,7 +68,7 @@
 }
 
 .stats--button {
-  cursor:pointer;
+  cursor: pointer;
   margin-top: 1rem;
   font-size: large;
   width: 100%;
@@ -96,7 +96,13 @@
   font-weight: 600;
 }
 
-@media (max-width:325px) {
+.won {
+  background-color: #fffbd5;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+@media (max-width: 325px) {
   .stats--closing--date {
     width: 100px;
   }

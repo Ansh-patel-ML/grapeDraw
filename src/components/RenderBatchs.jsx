@@ -40,7 +40,7 @@ const RenderBatchs = ({ batchInfo }) => {
       )}
       {!isLoading && (
         <>
-          {batch.items
+          {batch?.items
             .filter((contract) => {
               if (contract.state === "active") {
                 return contract;
