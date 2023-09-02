@@ -23,19 +23,24 @@ const ShowRewardHistory = () => {
     }
   );
 
-  const { data: allArchivedBatch } = useQuery(
-    ["allArchivedBatch"],
+  const { data: userWinningBatchTotalTickets } = useQuery(
+    ["userWinningBatchTotalTickets"],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=all`
+        `http://44.203.188.29/bid/user/${metaMaskAccountInfo.address}`
       );
       const data = await response.json();
-      const archivedBatch = data.items.filter((batch) => {
-        if (batch.state === "archived") {
-          return batch;
+      const ticketsAmount = data.items.reduce((acc, curr) => {
+        if (!acc.ticketAmount) {
+          acc["ticketAmount"] = 0;
         }
-      });
-      return archivedBatch;
+        acc["ticketAmount"] += curr["ticketsAmount"];
+        return acc;
+      }, {});
+      return ticketsAmount;
+    },
+    {
+      enabled: metaMaskAccountInfo.address !== null,
     }
   );
 
@@ -49,7 +54,9 @@ const ShowRewardHistory = () => {
         <div className="ShowRewards--Header">
           <h4>My Tickets</h4>
           <h4 className="Blue" onClick={() => setBoughtTicketsModal(true)}>
-            {allArchivedBatch && allArchivedBatch.length} Tickets
+            {userWinningBatchTotalTickets &&
+              userWinningBatchTotalTickets?.ticketAmount}{" "}
+            Tickets
           </h4>
         </div>
         <div className="ShowRewards--Main">
