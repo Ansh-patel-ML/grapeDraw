@@ -17,7 +17,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
   const [boughtTicketsModal, setBoughtTicketsModal] = useState(false);
 
   const { data: userWinningBatchTotalTickets } = useQuery(
-    ["userWinningBatchTotalTickets"],
+    ["userWinningBatchTotalTickets", batchInfo?.id],
     async () => {
       const response = await fetch(
         `http://44.203.188.29/bid/user/${metaMaskAccountInfo.address}`
@@ -25,7 +25,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
       const data = await response.json();
       const ticketsAmount = data.items
         .filter((batch) => {
-          if (batch["batchId"] === batchInfo?.id) {
+          if (batch["batchId"] === batchInfo["id"]) {
             return batch;
           }
         })

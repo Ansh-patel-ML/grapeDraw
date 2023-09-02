@@ -36,11 +36,7 @@ const icons = {
 };
 
 const HeroCarousel = () => {
-  const {
-    isLoading,
-    error,
-    data: lotteryStats,
-  } = useQuery("lotteryStats", async () => {
+  const { data: lotteryStats } = useQuery("lotteryStats", async () => {
     const response = await fetch("http://44.203.188.29/lotteryStats");
     const data = await response.json();
     return data;
