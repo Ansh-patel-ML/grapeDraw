@@ -46,7 +46,6 @@ const ActiveBatches = () => {
       }
       ref={BatchRef}
     >
-      {width < 768 && <Stats width={width} />}
       {}
       <div
         className={
@@ -65,6 +64,7 @@ const ActiveBatches = () => {
               return <RenderBatchs batchInfo={batchInfo} key={index} />;
             })}
       </div>
+      {width < 768 && <Stats width={width} />}
       {width >= 768 && <Stats width={width} />}
     </div>
   );
