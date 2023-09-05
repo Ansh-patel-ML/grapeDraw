@@ -4,13 +4,20 @@ import Batch from "./Batch";
 import { TailSpin } from "react-loader-spinner";
 
 const RenderBatchs = ({ batchInfo }) => {
-  const { data: batch, isLoading } = useQuery(["contract"], async () => {
-    const response = await fetch(
-      `http://44.203.188.29/batch/contract/${batchInfo.id}`
-    );
-    const data = await response.json();
-    return data;
-  });
+  const { data: batch, isLoading } = useQuery(
+    ["contract", batchInfo.id],
+    async () => {
+      const response = await fetch(
+        `http://44.203.188.29/batch/contract/${batchInfo.id}`
+      );
+      const data = await response.json();
+      return data;
+    },
+    {
+      staleTime: 5000,
+    }
+  );
+
   return (
     <>
       {isLoading && (

@@ -36,17 +36,29 @@ const icons = {
 };
 
 const HeroCarousel = () => {
-  const { data: lotteryStats } = useQuery("lotteryStats", async () => {
-    const response = await fetch("http://44.203.188.29/lotteryStats");
-    const data = await response.json();
-    return data;
-  });
+  const { data: lotteryStats } = useQuery(
+    ["lotteryStats", "transaction"],
+    async () => {
+      const response = await fetch("http://44.203.188.29/lotteryStats");
+      const data = await response.json();
+      return data;
+    },
+    {
+      staleTime: 5000,
+    }
+  );
 
-  const { data: ethPriceInUSD } = useQuery(["networkData"], async () => {
-    const response = await fetch(`http://44.203.188.29/networkData`);
-    const data = await response.json();
-    return data;
-  });
+  const { data: ethPriceInUSD } = useQuery(
+    ["networkData"],
+    async () => {
+      const response = await fetch(`http://44.203.188.29/networkData`);
+      const data = await response.json();
+      return data;
+    },
+    {
+      staleTime: 30000,
+    }
+  );
 
   useEffect(() => {
     if (lotteryStats && ethPriceInUSD) {

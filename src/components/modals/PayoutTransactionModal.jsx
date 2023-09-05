@@ -12,6 +12,9 @@ const PayoutTransactionModal = ({ closeModal, batchId }) => {
       const response = await fetch(`http://44.203.188.29/batch/${batchId}`);
       const data = await response.json();
       return data;
+    },
+    {
+      staleTime: 5000,
     }
   );
 

@@ -40,6 +40,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     },
     {
       enabled: metaMaskAccountInfo.address !== null && batchInfo !== undefined,
+      staleTime: 5000,
     }
   );
 
@@ -55,6 +56,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     },
     {
       enabled: batchInfo === undefined ? false : true,
+      staleTime: 5000,
     }
   );
 
@@ -69,6 +71,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     },
     {
       enabled: batchInfo === undefined ? false : true,
+      staleTime: 5000,
     }
   );
 
