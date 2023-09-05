@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import ShowStats from "../ShowStats";
 import { useQuery } from "react-query";
@@ -6,9 +6,11 @@ import "./ShowBoughtBatchTickets.css";
 import SearchIcon from "../../assets/Icons/SearchIcon.png";
 import CloseModal from "../../assets/Icons/Button/CloseModal.svg";
 import { WalletContext } from "../../App";
+import { TailSpin } from "react-loader-spinner";
 
 const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
   const { metaMaskAccountInfo } = useContext(WalletContext);
+  const [searchedBatched, setSearchedBatched] = useState("");
 
   const { data: userRewardBatches } = useQuery(
     ["WinningBatch"],
@@ -40,6 +42,24 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
     }
   );
 
+  const { data: searchedBatchByUser, isLoading: searchingBatch } = useQuery(
+    ["searchedBatchByInput", searchedBatched],
+    async () => {
+      const response = await fetch(
+        `http://44.203.188.29/batch/${searchedBatched}`
+      );
+      const data = await response.json();
+      return data;
+    },
+    {
+      enabled: searchedBatched !== "" && metaMaskAccountInfo.address !== null,
+    }
+  );
+
+  const handleChange = (e) => {
+    setSearchedBatched(e.target.value);
+  };
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -62,16 +82,23 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
             />
           </div>
           <div className="searchbar">
-            <img src={SearchIcon} alt="" className="search--icon" />
+            <img
+              src={SearchIcon}
+              alt=""
+              className="search--icon"
+              onClick={() => setSearchedBatched(null)}
+            />
             <input
               type="search"
               className="search--input"
               placeholder="Enter batch number"
+              onChange={handleChange}
             />
           </div>
         </div>
         <div className="bought--tickets--body">
-          {userRewardBatches?.items?.length >= 1 &&
+          {searchedBatched === null &&
+            userRewardBatches?.items?.length >= 1 &&
             userRewardBatches.items.map((value) => (
               <>
                 <ShowStats
@@ -81,16 +108,19 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
                 />
               </>
             ))}
-          {userRewardBatches?.items?.length === 0 && (
-            <h2 style={{ marginTop: "40px", textAlign: "center" }}>
-              No {modalText} Found
-            </h2>
-          )}
-          {userRewardBatches?.items?.length >= 1 && (
-            <button className="stats--button">More Batches</button>
-          )}
+          {searchedBatched === null &&
+            userRewardBatches?.items?.length === 0 && (
+              <h2 style={{ marginTop: "40px", textAlign: "center" }}>
+                No {modalText} Found
+              </h2>
+            )}
+          {searchedBatched === null &&
+            userRewardBatches?.items?.length >= 1 && (
+              <button className="stats--button">More Batches</button>
+            )}
 
-          {allArchivedBatch?.items?.length >= 1 &&
+          {searchedBatched === "" &&
+            allArchivedBatch?.items?.length >= 1 &&
             allArchivedBatch.items.map((value) => (
               <>
                 <ShowStats
@@ -100,13 +130,50 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
                 />
               </>
             ))}
-          {allArchivedBatch?.items?.length === 0 && (
+          {searchedBatched === "" && allArchivedBatch?.items?.length === 0 && (
             <h2 style={{ marginTop: "40px", textAlign: "center" }}>
               No {modalText} Found
             </h2>
           )}
-          {allArchivedBatch?.items?.length >= 1 && (
+          {searchedBatched === null && allArchivedBatch?.items?.length >= 1 && (
             <button className="stats--button">More Batches</button>
+          )}
+
+          {searchedBatchByUser && searchedBatchByUser?.item !== null && (
+            <>
+              <ShowStats
+                isOpenInModal={true}
+                batchInfo={searchedBatchByUser.item}
+              />
+            </>
+          )}
+          {searchedBatchByUser && searchedBatchByUser.item === null && (
+            <>
+              <h4 className="batchNotFound">{`Batch "${searchedBatched}" not found`}</h4>
+            </>
+          )}
+
+          {searchingBatch === true && (
+            <>
+              <TailSpin
+                height="30"
+                width="30"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{
+                  alignItem: "center",
+                  justifyContent: "center",
+                }}
+                visible={true}
+              />
+              <h4
+                className="batchNotFound"
+                style={{ marginLeft: "20px", marginTop: "5px" }}
+              >
+                Searching..
+              </h4>
+            </>
           )}
         </div>
       </div>

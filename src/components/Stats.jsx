@@ -184,7 +184,7 @@ const Stats = ({ width }) => {
               Stats
             </div>
           </div>
-          <div className="Stats--Show">
+          <div className="Stats--Show" style={{ marginTop: "-7px" }}>
             {!metaMaskAccountInfo.address && showConnectStatsWallet && (
               <ConnectWallet
                 setOpenModal={handleConnectToWallet}

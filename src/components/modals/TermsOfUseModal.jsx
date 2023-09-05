@@ -18,7 +18,7 @@ const TermsOfUseModal = ({ closeModal }) => {
       <div className="TermsOfUse-Connect">
         <div className="TermsOfUse--tickets--head">
           <div className="Connect--Heading">
-            <h1 style={{ marginLeft: "13px" }}>Term of Use</h1>
+            <h1 style={{ marginLeft: "12px" }}>Term of Use</h1>
             <img
               src={CloseModal}
               alt=""

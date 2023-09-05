@@ -1,29 +1,39 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-
 import CloseModal from "../../assets/Icons/Button/CloseModal.svg";
 import CompletedIcon from "../../assets/Icons/CompletedIcon.png";
 import "./PayoutTransactionModal.css";
+import { useQuery } from "react-query";
 
-const transactions = [
-  {
-    ETH_QTY: "2.44 ETH",
-    accountAddress: "0x5287b9736e648...",
-    transaction: "Completed",
-  },
-  {
-    ETH_QTY: "1.33 ETH",
-    accountAddress: "0x9f57b953h6648...",
-    transaction: "Completed",
-  },
-  {
-    ETH_QTY: "0.92 ETH",
-    accountAddress: "0x5287b9736e648...",
-    transaction: "Completed",
-  },
-];
+const PayoutTransactionModal = ({ closeModal, batchId }) => {
+  const { data: payoutBatchInfo } = useQuery(
+    ["payoutTransactionBatchInfo"],
+    async () => {
+      const response = await fetch(`http://44.203.188.29/batch/${batchId}`);
+      const data = await response.json();
+      return data;
+    }
+  );
 
-const PayoutTransactionModal = ({ closeModal }) => {
+  const formatCustomDate = (date, index) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      timeZone: "UTC",
+    };
+
+    const formattedDate = date.toLocaleString("en-US", options);
+    const timePart = formattedDate.split(", ")[1];
+    if (index === 1) {
+      return `${formattedDate.split(", ")[0]}`;
+    } else {
+      return `${timePart} UTC`;
+    }
+  };
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -51,28 +61,101 @@ const PayoutTransactionModal = ({ closeModal }) => {
           <div className="payout--time">
             <div>Time:</div>
             <div className="payout--time--info">
-              <p>June 24, 2023</p>
-              <div>at 9:59 AM UTC</div>
-            </div>
-          </div>
-
-          {transactions.map((transactionDetails, index) => (
-            <div key={index}>
-              <hr />
-              <div className="payout--time--info--container">
-                <div className="payout--tnx--info">
-                  <p>{transactionDetails.ETH_QTY}</p>
-                  <div className="payout--completed">
-                    <img src={CompletedIcon} alt="" />
-                    <p>{transactionDetails.transaction}</p>
-                  </div>
-                </div>
-                <div className="payout--address">
-                  {transactionDetails.accountAddress}
-                </div>
+              <p>
+                {formatCustomDate(
+                  new Date(payoutBatchInfo?.item?.endTime * 1000),
+                  1
+                )}
+              </p>
+              <div>
+                {formatCustomDate(
+                  new Date(payoutBatchInfo?.item?.endTime * 1000),
+                  2
+                )}
               </div>
             </div>
-          ))}
+          </div>
+          <div>
+            <hr />
+            <div className="payout--time--info--container">
+              <div className="payout--tnx--info">
+                <p>{payoutBatchInfo?.item?.amount1 / 10 ** 18} ETH</p>
+                <div className="payout--completed">
+                  <img src={CompletedIcon} alt="" />
+                  <p>Completed</p>
+                </div>
+              </div>
+              <div className="payout--address">
+                <a
+                  className="transaction--address"
+                  href={`https://sepolia.etherscan.io/tx/${payoutBatchInfo?.item?.drawTxHash}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ fontSize: "1.5vh" }}
+                >
+                  {payoutBatchInfo &&
+                    payoutBatchInfo?.item?.drawTxHash.slice(0, -35)}
+                  ...
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <hr />
+            <div className="payout--time--info--container">
+              <div className="payout--tnx--info">
+                <p>
+                  {payoutBatchInfo && payoutBatchInfo?.item?.amount2 / 10 ** 18}{" "}
+                  ETH
+                </p>
+                <div className="payout--completed">
+                  <img src={CompletedIcon} alt="" />
+                  <p>Completed</p>
+                </div>
+              </div>
+              <div className="payout--address">
+                <a
+                  className="transaction--address"
+                  href={`https://sepolia.etherscan.io/tx/${payoutBatchInfo?.item?.drawTxHash}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ fontSize: "1.5vh" }}
+                >
+                  {payoutBatchInfo &&
+                    payoutBatchInfo?.item?.drawTxHash.slice(0, -35)}
+                  ...
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <hr />
+            <div className="payout--time--info--container">
+              <div className="payout--tnx--info">
+                <p>
+                  {payoutBatchInfo && payoutBatchInfo?.item?.amount3 / 10 ** 18}{" "}
+                  ETH
+                </p>
+                <div className="payout--completed">
+                  <img src={CompletedIcon} alt="" />
+                  <p>Completed</p>
+                </div>
+              </div>
+              <div className="payout--address">
+                <a
+                  className="transaction--address"
+                  href={`https://sepolia.etherscan.io/tx/${payoutBatchInfo?.item?.drawTxHash}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ fontSize: "1.5vh" }}
+                >
+                  {payoutBatchInfo &&
+                    payoutBatchInfo?.item?.drawTxHash.slice(0, -35)}
+                  ...
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>,

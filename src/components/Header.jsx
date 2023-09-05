@@ -66,11 +66,14 @@ const Header = () => {
         </div>
         {metaMaskAccountInfo.address && (
           <div className="header--user--info">
-            <MetaMaskAvatar address={metaMaskAccountInfo.address} size={32} />
-            <h4>
-              {metaMaskAccountInfo.address.slice(0, 6)}...
-              {metaMaskAccountInfo.address.slice(-4)}
-            </h4>
+            <div>
+              <MetaMaskAvatar address={metaMaskAccountInfo.address} size={32} />
+              <h4>
+                {metaMaskAccountInfo.address.slice(0, 6)}...
+                {metaMaskAccountInfo.address.slice(-4)}
+              </h4>
+            </div>
+            <h5 className="disconnect">Disconnect</h5>
           </div>
         )}
         {!metaMaskAccountInfo.address && (

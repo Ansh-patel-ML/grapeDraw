@@ -87,7 +87,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     if (index === 1) {
       return `${formattedDate.split(", ")[0]}`;
     } else {
-      return `at ${timePart} UTC`;
+      return `${timePart} UTC`;
     }
   };
 
@@ -252,6 +252,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
       {isPayoutTransactionModal && (
         <PayoutTransactionModal
           closeModal={() => setIsPayoutTransactionModal(false)}
+          batchId={batchInfo.id}
         />
       )}
       {boughtTicketsModal && (
