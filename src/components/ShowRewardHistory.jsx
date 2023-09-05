@@ -18,7 +18,7 @@ const ShowRewardHistory = () => {
     ["userWinningBatch"],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/batch/user/0x0D70578B94b60162e098c89e6923bAE4b9982c63?status=winnings`
+        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=winnings`
       );
       const data = await response.json();
       return data;
