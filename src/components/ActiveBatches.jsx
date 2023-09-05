@@ -21,11 +21,17 @@ const ActiveBatches = () => {
     }
   };
 
-  const { data: ActiveBatches, isLoading } = useQuery(["batch"], async () => {
-    const response = await fetch(`http://44.203.188.29/contract`);
-    const data = await response.json();
-    return data;
-  });
+  const { data: ActiveBatches, isLoading } = useQuery(
+    ["batch"],
+    async () => {
+      const response = await fetch(`http://44.203.188.29/contract`);
+      const data = await response.json();
+      return data;
+    },
+    {
+      staleTime: 5000,
+    }
+  );
 
   useResizeObserver(BatchRef, handleResize);
 

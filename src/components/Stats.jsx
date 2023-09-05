@@ -35,6 +35,7 @@ const Stats = ({ width }) => {
     },
     {
       enabled: metaMaskAccountInfo.address !== null,
+      staleTime: 5000,
     }
   );
 

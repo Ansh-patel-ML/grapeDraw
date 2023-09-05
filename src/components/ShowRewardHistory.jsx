@@ -11,6 +11,8 @@ const ShowRewardHistory = () => {
   const { metaMaskAccountInfo } = useContext(WalletContext);
   const [boughtTicketsModal, setBoughtTicketsModal] = useState(false);
   const [noNotification, setNoNotification] = useState(false);
+  const [lastNoNotificationBatchId, setLastNoNotificationBatchId] =
+    useState(null);
 
   const { data: winningBatch, isLoading } = useQuery(
     ["userWinningBatch"],
@@ -20,6 +22,9 @@ const ShowRewardHistory = () => {
       );
       const data = await response.json();
       return data;
+    },
+    {
+      staleTime: 5000,
     }
   );
 
@@ -41,11 +46,15 @@ const ShowRewardHistory = () => {
     },
     {
       enabled: metaMaskAccountInfo.address !== null,
+      staleTime: 5000,
     }
   );
 
   useEffect(() => {
     setNoNotification(JSON.parse(localStorage.getItem("no-notification")));
+    setLastNoNotificationBatchId(
+      JSON.parse(localStorage.getItem("last-won-batchId"))
+    );
   }, []);
 
   return (
@@ -75,7 +84,12 @@ const ShowRewardHistory = () => {
                       "no-notification",
                       JSON.stringify(true)
                     );
+                    localStorage.setItem(
+                      "last-won-batchId",
+                      JSON.stringify(winningBatch.items[0].id)
+                    );
                     setNoNotification(true);
+                    setLastNoNotificationBatchId(winningBatch.items[0].id);
                   }}
                 >
                   Clear
@@ -83,8 +97,11 @@ const ShowRewardHistory = () => {
               ))}
           </div>
           <div className="ShowRewards--Notification--Container">
-            {(noNotification === false || noNotification === null) &&
-              winningBatch &&
+            {winningBatch &&
+              (noNotification === false ||
+                noNotification === null ||
+                lastNoNotificationBatchId === null ||
+                winningBatch.items[0].id !== lastNoNotificationBatchId) &&
               winningBatch.items.map((data) => {
                 return <NotificationPanel data={data} key={data.id} />;
               })}

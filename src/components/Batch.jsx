@@ -44,11 +44,17 @@ const Batch = ({
   const closePopUp = () => setIsConnectedPopUp(false);
   const closeTransactionPopUp = () => setTransactionStatusPopUp(false);
 
-  const { data: ethPriceInUSD } = useQuery(["networkData"], async () => {
-    const response = await fetch(`http://44.203.188.29/networkData`);
-    const data = await response.json();
-    return data;
-  });
+  const { data: ethPriceInUSD } = useQuery(
+    ["networkData"],
+    async () => {
+      const response = await fetch(`http://44.203.188.29/networkData`);
+      const data = await response.json();
+      return data;
+    },
+    {
+      staleTime: 30000,
+    }
+  );
 
   const { data: transaction } = useQuery(
     ["transaction", batchInfo.id],
@@ -61,6 +67,7 @@ const Batch = ({
     },
     {
       enabled: callNetworkData,
+      staleTime: 5000,
     }
   );
 
@@ -307,8 +314,10 @@ const Batch = ({
                   </h4>
                   <h4 className="gray invisible">
                     $
-                    {ethPriceInUSD.ethPrice *
-                      (batchInfo.amount1 / 10 ** 18).toFixed(2)}
+                    {(
+                      ethPriceInUSD.ethPrice *
+                      (batchInfo.amount1 / 10 ** 18)
+                    ).toFixed(2)}
                   </h4>
                 </div>
               </div>
@@ -320,8 +329,10 @@ const Batch = ({
                   </h4>
                   <h4 className="gray invisible">
                     $
-                    {ethPriceInUSD.ethPrice *
-                      (batchInfo.amount2 / 10 ** 18).toFixed(2)}
+                    {(
+                      ethPriceInUSD.ethPrice *
+                      (batchInfo.amount2 / 10 ** 18)
+                    ).toFixed(2)}
                   </h4>
                 </div>
               </div>
@@ -333,8 +344,10 @@ const Batch = ({
                   </h4>
                   <h4 className="gray invisible">
                     $
-                    {ethPriceInUSD.ethPrice *
-                      (batchInfo.amount3 / 10 ** 18).toFixed(2)}
+                    {(
+                      ethPriceInUSD.ethPrice *
+                      (batchInfo.amount3 / 10 ** 18)
+                    ).toFixed(2)}
                   </h4>
                 </div>
               </div>
