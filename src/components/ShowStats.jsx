@@ -40,7 +40,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     },
     {
       enabled: metaMaskAccountInfo.address !== null && batchInfo !== undefined,
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 
@@ -56,7 +56,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     },
     {
       enabled: batchInfo === undefined ? false : true,
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 
@@ -71,7 +71,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     },
     {
       enabled: batchInfo === undefined ? false : true,
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 
@@ -137,9 +137,28 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
         ) : (
           <>
             <p className="stats--batch--no">{`Batch #${batchInfo?.id}`}</p>
+            {batchInfo?.["winner1"] === metaMaskAccountInfo.address && (
+              <div className="celebration--container">
+                <p>🎉 Congratulations, you won 1st place here.</p>
+              </div>
+            )}
+            {batchInfo?.["winner2"] === metaMaskAccountInfo.address && (
+              <div className="celebration--container">
+                <p>🎉 Congratulations, you won 2nd place here.</p>
+              </div>
+            )}
+            {batchInfo?.["winner3"] === metaMaskAccountInfo.address && (
+              <div className="celebration--container">
+                <p>🎉 Congratulations, you won 3rd place here.</p>
+              </div>
+            )}
             <div className="stats--batch--tickets">
               <div>Bought Tickets :</div>
-              <p>{userWinningBatchTotalTickets?.ticketAmount}</p>
+              <p>
+                {userWinningBatchTotalTickets?.ticketAmount === undefined
+                  ? 0
+                  : userWinningBatchTotalTickets?.ticketAmount}
+              </p>
             </div>
             <hr />
 
@@ -160,7 +179,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
               </div>
               <div
                 className={
-                  batchInfo?.["winner1"] === metaMaskAccountInfo.address
+                  batchInfo?.["winner2"] === metaMaskAccountInfo.address
                     ? "stats--coin--position won"
                     : "stats--coin--position"
                 }
@@ -174,7 +193,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
               </div>
               <div
                 className={
-                  batchInfo?.["winner1"] === metaMaskAccountInfo.address
+                  batchInfo?.["winner3"] === metaMaskAccountInfo.address
                     ? "stats--coin--position won"
                     : "stats--coin--position"
                 }

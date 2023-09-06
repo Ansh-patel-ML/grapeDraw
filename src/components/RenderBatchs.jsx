@@ -14,7 +14,7 @@ const RenderBatchs = ({ batchInfo }) => {
       return data;
     },
     {
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 

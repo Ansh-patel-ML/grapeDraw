@@ -10,7 +10,8 @@ export async function _Bid(
   _contractInstance,
   setTransactionOngoing,
   setTransactiontatusPopUp,
-  setTransactionErrorModal
+  setTransactionErrorModal,
+  SetTickets
 ) {
   try {
     const ether = _bidAmount * _noOfBids;
@@ -19,6 +20,7 @@ export async function _Bid(
       from: _userAddress,
       value: bidAmount,
       gas: 900000,
+      gasPrice: "20000000000",
     });
     const receipt = await _web3.eth.getTransactionReceipt(
       transaction.transactionHash
@@ -26,6 +28,10 @@ export async function _Bid(
     if (receipt.status === 1n) {
       setTransactionOngoing(false);
       setTransactiontatusPopUp(true);
+      setTimeout(() => {
+        setTransactiontatusPopUp(false);
+        SetTickets(1);
+      }, 7000);
     } else {
       setTransactionErrorModal(true);
       setTransactionOngoing(false);
