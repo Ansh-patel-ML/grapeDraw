@@ -24,7 +24,7 @@ const ShowRewardHistory = () => {
       return data;
     },
     {
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 
@@ -46,7 +46,7 @@ const ShowRewardHistory = () => {
     },
     {
       enabled: metaMaskAccountInfo.address !== null,
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 

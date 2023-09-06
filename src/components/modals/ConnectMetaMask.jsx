@@ -1,5 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import ReactDOM from "react-dom";
+import TermsOfUseModal from "./TermsOfUseModal";
+import PrivacyPolicyModal from "./PrivacyPolicyModal";
 import CloseModal from "../../assets/Icons/Button/CloseModal.svg";
 import MetaMaskIcon from "../../assets/Icons/MetaMask.svg";
 import Web3 from "web3";
@@ -7,6 +9,9 @@ import "./ConnectMetaMask.css";
 import { WalletContext } from "../../App";
 
 const ConnectMetaMask = ({ closeModal }) => {
+  const [closeTermsOfUseModal, setCloseTermsOfUseModal] = React.useState(false);
+  const [closePrivacyPolicyModal, setClosePrivacyPolicyModal] =
+    React.useState(false);
   const { metaMaskAccountInfo, setMetaMaskAccountInfo } =
     useContext(WalletContext);
 
@@ -44,6 +49,12 @@ const ConnectMetaMask = ({ closeModal }) => {
 
   return ReactDOM.createPortal(
     <>
+      {closeTermsOfUseModal && (
+        <TermsOfUseModal closeModal={setCloseTermsOfUseModal} />
+      )}
+      {closePrivacyPolicyModal && (
+        <PrivacyPolicyModal closeModal={setClosePrivacyPolicyModal} />
+      )}
       <div className="modal--wrapper"></div>
       <div className="Connect">
         <div className="Connect--Heading">
@@ -64,9 +75,20 @@ const ConnectMetaMask = ({ closeModal }) => {
         </div>
         <div className="Connect--Terms">
           <p>
-            By clicking Connect Metamask, you are accepting the
-            <span className="blue"> Terms of Use</span> and{" "}
-            <span className="blue">Privacy Policy</span>
+            By clicking Connect Metamask, you are accepting the{" "}
+            <span
+              className="blue"
+              onClick={() => setCloseTermsOfUseModal(true)}
+            >
+              Terms of Use
+            </span>{" "}
+            and{" "}
+            <span
+              className="blue"
+              onClick={() => setClosePrivacyPolicyModal(true)}
+            >
+              Privacy Policy
+            </span>
           </p>
         </div>
       </div>

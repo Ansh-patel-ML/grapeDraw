@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
+import { TailSpin } from "react-loader-spinner";
 import SoldTickets from "../assets/Icons/SoldTickets.svg";
 import TotalPrizeFund from "../assets/Icons/TotalPrizeFund.svg";
 import ActiveBatchesFund from "../assets/Icons/ActiveBatchesFund.svg";
@@ -36,7 +37,7 @@ const icons = {
 };
 
 const HeroCarousel = () => {
-  const { data: lotteryStats } = useQuery(
+  const { data: lotteryStats, isLoading: lotteryStatsLoading } = useQuery(
     ["lotteryStats", "transaction"],
     async () => {
       const response = await fetch("http://44.203.188.29/lotteryStats");
@@ -44,7 +45,7 @@ const HeroCarousel = () => {
       return data;
     },
     {
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 
@@ -56,7 +57,7 @@ const HeroCarousel = () => {
       return data;
     },
     {
-      staleTime: 30000,
+      refetchInterval: 30000,
     }
   );
 
@@ -76,25 +77,45 @@ const HeroCarousel = () => {
 
   return (
     <div className="carousel--container">
-      {statsCard?.map((statsData, index) => (
-        <div className="stats--card--body" key={index}>
-          <div className="stats--upper--body">
-            <img src={icons?.[statsData["iconName"]] || ""} alt="" />
-          </div>
+      {lotteryStatsLoading === true ? (
+        <>
+          <TailSpin
+            height="40"
+            width="40"
+            color="#4fa94d"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{
+              justifyContent: "center",
+            }}
+            visible={true}
+          />
+        </>
+      ) : (
+        <>
+          {statsCard?.map((statsData, index) => (
+            <div className="stats--card--body" key={index}>
+              <div className="stats--upper--body">
+                <img src={icons?.[statsData["iconName"]] || ""} alt="" />
+              </div>
 
-          <div className="stats--lower--body">
-            <h3 className="stats--title">
-              <span>{statsData?.title1 || ""}</span>
-              <span className="stats--title2">{statsData?.title2 || ""}</span>
-            </h3>
-            <hr />
-            <div className="stats--lower--body--valus">
-              <p>{statsData?.amount || ""}</p>
-              <p>{statsData?.EthereumQTY || ""}</p>
+              <div className="stats--lower--body">
+                <h3 className="stats--title">
+                  <span>{statsData?.title1 || ""}</span>
+                  <span className="stats--title2">
+                    {statsData?.title2 || ""}
+                  </span>
+                </h3>
+                <hr />
+                <div className="stats--lower--body--valus">
+                  <p>{statsData?.amount || ""}</p>
+                  <p>{statsData?.EthereumQTY || ""}</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      ))}
+          ))}
+        </>
+      )}
     </div>
   );
 };

@@ -25,7 +25,7 @@ const TransactionModal = ({ closeModal, batchId }) => {
       return data;
     },
     {
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 

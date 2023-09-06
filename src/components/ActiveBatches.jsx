@@ -29,7 +29,7 @@ const ActiveBatches = () => {
       return data;
     },
     {
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 
@@ -69,6 +69,9 @@ const ActiveBatches = () => {
             .map((batchInfo, index) => {
               return <RenderBatchs batchInfo={batchInfo} key={index} />;
             })}
+        {!isLoading &&
+          ActiveBatches.items.filter((batch) => batch.state === "active")
+            .length === 0 && <h2>No Active Batch Found</h2>}
       </div>
       {width < 768 && <Stats width={width} />}
       {width >= 768 && <Stats width={width} />}

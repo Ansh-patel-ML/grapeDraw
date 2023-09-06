@@ -35,7 +35,7 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
         enabled:
           modalText === "Rewards Tickets" &&
           metaMaskAccountInfo.address !== null,
-        staleTime: 5000,
+        refetchInterval: 30000,
       }
     );
 
@@ -53,7 +53,7 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
         enabled:
           modalText === "Bought Tickets" &&
           metaMaskAccountInfo.address !== null,
-        staleTime: 5000,
+        refetchInterval: 30000,
       }
     );
 
@@ -64,11 +64,25 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
         `http://44.203.188.29/batch/${searchedBatched}`
       );
       const data = await response.json();
+      if (modalText !== "Bought Tickets") {
+        const filteredBatch = userRewardBatches.items.filter(
+          (batch) => batch.id === +searchedBatched
+        );
+        if (filteredBatch.length >= 1) {
+          return {
+            item: filteredBatch[0],
+          };
+        } else {
+          return {
+            item: null,
+          };
+        }
+      }
       return data;
     },
     {
       enabled: searchedBatched !== "" && metaMaskAccountInfo.address !== null,
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 
@@ -145,7 +159,8 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
           </>
         ) : (
           <div className="bought--tickets--body">
-            {searchedBatched === "" &&
+            {modalText === "Rewards Tickets" &&
+              searchedBatched === "" &&
               userRewardBatches?.items?.length >= 1 &&
               userRewardBatches.items.map((value) => (
                 <>
@@ -156,18 +171,21 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
                   />
                 </>
               ))}
-            {searchedBatched === "" &&
+            {modalText === "Rewards Tickets" &&
+              searchedBatched === "" &&
               userRewardBatches?.items?.length === 0 && (
                 <h2 style={{ marginTop: "40px", textAlign: "center" }}>
                   No {modalText} Found
                 </h2>
               )}
-            {searchedBatched === null &&
+            {modalText === "Rewards Tickets" &&
+              searchedBatched === null &&
               userRewardBatches?.items?.length >= 1 && (
                 <button className="stats--button">More Batches</button>
               )}
 
-            {searchedBatched === "" &&
+            {modalText === "Bought Tickets" &&
+              searchedBatched === "" &&
               allArchivedBatch?.items?.length >= 1 &&
               allArchivedBatch.items.map((value) => (
                 <>
@@ -178,13 +196,15 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
                   />
                 </>
               ))}
-            {searchedBatched === "" &&
+            {modalText === "Bought Tickets" &&
+              searchedBatched === "" &&
               allArchivedBatch?.items?.length === 0 && (
                 <h2 style={{ marginTop: "40px", textAlign: "center" }}>
                   No {modalText} Found
                 </h2>
               )}
-            {searchedBatched === null &&
+            {modalText === "Bought Tickets" &&
+              searchedBatched === null &&
               allArchivedBatch?.items?.length >= 1 && (
                 <button className="stats--button">More Batches</button>
               )}

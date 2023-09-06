@@ -70,6 +70,12 @@
 
 .blue {
   color: #0500ff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.blue:hover {
+  text-decoration: underline;
 }
 
 .modal--wrapper {

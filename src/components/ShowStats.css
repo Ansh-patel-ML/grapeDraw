@@ -107,6 +107,15 @@
   border: 2px solid black;
 }
 
+.celebration--container {
+  border-radius: 5px;
+  border: 1px solid #292929;
+  background-color: #fffbd5;
+  font-size: 14px;
+  padding: 2px 0px 2px 8px;
+  margin: 6px 0px;
+}
+
 @media (max-width: 325px) {
   .stats--closing--date {
     width: 100px;

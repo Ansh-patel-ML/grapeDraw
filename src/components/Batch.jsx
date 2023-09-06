@@ -52,7 +52,7 @@ const Batch = ({
       return data;
     },
     {
-      staleTime: 30000,
+      refetchInterval: 30000,
     }
   );
 
@@ -67,7 +67,7 @@ const Batch = ({
     },
     {
       enabled: callNetworkData,
-      staleTime: 5000,
+      refetchInterval: 30000,
     }
   );
 
@@ -102,7 +102,8 @@ const Batch = ({
         contractInstance,
         setIsTransactionOngoing,
         setTransactionStatusPopUp,
-        setTransactionErrorModal
+        setTransactionErrorModal,
+        SetTickets
       );
     } else {
       if (window.ethereum) {
@@ -134,6 +135,15 @@ const Batch = ({
       return acc;
     }, {});
     return transactionAmount.amount;
+  };
+
+  const countDecimalPlaces = (number) => {
+    const numberString = number.toString();
+    if (numberString.indexOf(".") === -1) {
+      return 0;
+    }
+    const decimalPart = numberString.split(".")[1];
+    return decimalPart.length;
   };
 
   useEffect(() => {
@@ -421,8 +431,12 @@ const Batch = ({
                 <h4>
                   Buy{" "}
                   {callNetworkData
-                    ? ((bidPriceInWei / 10 ** 18) * tickets).toFixed(3)
-                    : (+bidPrice.ethValue * tickets).toFixed(3)}{" "}
+                    ? ((bidPriceInWei / 10 ** 18) * tickets).toFixed(
+                        countDecimalPlaces(bidPriceInWei / 10 ** 18)
+                      )
+                    : (+bidPrice.ethValue * tickets).toFixed(
+                        countDecimalPlaces(+bidPrice.ethValue)
+                      )}{" "}
                   ETH {tickets} Tickets
                 </h4>
               </div>
