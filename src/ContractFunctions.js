@@ -20,7 +20,6 @@ export async function _Bid(
       from: _userAddress,
       value: bidAmount,
       gas: 900000,
-      gasPrice: "20000000000",
     });
     const receipt = await _web3.eth.getTransactionReceipt(
       transaction.transactionHash

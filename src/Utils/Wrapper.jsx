@@ -17,12 +17,7 @@ const Wrapper = ({ children }) => {
   useResizeObserver(WrapperRef, handleResize);
 
   return (
-    <div
-      className={
-        "high--padding"
-      }
-      ref={WrapperRef}
-    >
+    <div className={"high--padding"} ref={WrapperRef}>
       {children}
     </div>
   );
