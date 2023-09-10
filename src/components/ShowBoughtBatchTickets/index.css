@@ -29,8 +29,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  width: 95%;
-  height: 700px;
+}
+
+#Bought-connect--imp {
+  width: 90%;
+  height: 90dvh;
   justify-content: flex-start;
 }
 
@@ -93,11 +96,18 @@
   overflow-y: scroll;
   position: absolute;
   right: -4%;
+  height: 83dvh;
 }
 
 @media (max-width: 330px) {
   .Bought-Connect {
     font-size: 14px;
     width: 90%;
+  }
+  .bought--tickets--body {
+    height: 83dvh;
+  }
+  #Bought-connect--imp {
+    max-height: 600px;
   }
 }

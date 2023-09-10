@@ -102,7 +102,7 @@ const TransactionModal = ({ closeModal, batchId }) => {
                               target="_blank"
                               rel="noreferrer"
                             >
-                              {`${tnx.txHash.slice(0, 23)}...`}
+                              {`${tnx.txHash.slice(0, 20)}...`}
                             </a>
                             <p>{moment(tnx.date).format("HH:mm")}</p>
                           </div>

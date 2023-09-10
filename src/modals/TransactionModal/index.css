@@ -13,13 +13,14 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  width: 95%;
 }
 
 #transaction--Connect {
-  height: 600px;
   display: flex;
   justify-content: flex-start;
+  width: 90%;
+  height: 90dvh;
+  max-height: 600px;
 }
 
 .transactionModal--Heading {
@@ -111,4 +112,22 @@
   padding: 5px;
   border-radius: 10px;
   box-shadow: -3px -3px black;
+}
+
+@media (max-width: 320px) {
+  .transactionModal--Heading h1 {
+    font-size: 25px;
+  }
+  .transaction {
+    margin-left: 8px;
+  }
+  .single-transaction h5 {
+    margin-left: 8px;
+  }
+  .transaction--date {
+    margin-left: 8px;
+  }
+  .transaction--header h3 {
+    margin-left: 5px;
+  }
 }
