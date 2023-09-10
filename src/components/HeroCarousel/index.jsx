@@ -39,7 +39,7 @@ const HeroCarousel = () => {
   const { data: lotteryStats, isLoading: lotteryStatsLoading } = useQuery(
     ["lotteryStats", "transaction"],
     async () => {
-      const response = await fetch("http://44.203.188.29/lotteryStats");
+      const response = await fetch(`${process.env.REACT_APP_API}/lotteryStats`);
       const data = await response.json();
       return data;
     },
@@ -51,7 +51,7 @@ const HeroCarousel = () => {
   const { data: ethPriceInUSD } = useQuery(
     ["networkData"],
     async () => {
-      const response = await fetch(`http://44.203.188.29/networkData`);
+      const response = await fetch(`${process.env.REACT_APP_API}/networkData`);
       const data = await response.json();
       return data;
     },

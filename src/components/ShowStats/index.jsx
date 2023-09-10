@@ -20,7 +20,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     ["userWinningBatchTotalTickets", batchInfo?.id],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/bid/user/${metaMaskAccountInfo.address}`
+        `${process.env.REACT_APP_API}/bid/user/${metaMaskAccountInfo.address}`
       );
       const data = await response.json();
       const ticketsAmount = data.items
@@ -47,7 +47,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
   const { data: contractInfo } = useQuery(
     ["contractInfo", batchInfo?.id],
     async () => {
-      const response = await fetch(`http://44.203.188.29/contract`);
+      const response = await fetch(`${process.env.REACT_APP_API}/contract`);
       const data = await response.json();
       const contractById = data.items.filter(
         (val) => val.id === batchInfo?.contractId
@@ -64,7 +64,7 @@ const ShowStats = ({ isOpenInModal, batchInfo }) => {
     ["transaction", batchInfo?.id],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/bid/batch/${batchInfo.id}`
+        `${process.env.REACT_APP_API}/bid/batch/${batchInfo.id}`
       );
       const data = await response.json();
       return data;

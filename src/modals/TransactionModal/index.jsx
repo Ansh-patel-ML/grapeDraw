@@ -20,7 +20,9 @@ const TransactionModal = ({ closeModal, batchId }) => {
   const { data: batchData, isLoading } = useQuery(
     ["batch", batchId],
     async () => {
-      const response = await fetch(`http://44.203.188.29/bid/batch/${batchId}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_API}/bid/batch/${batchId}`
+      );
       const data = await response.json();
       return data;
     },

@@ -26,7 +26,7 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
       ["allWinningBatch"],
       async () => {
         const response = await fetch(
-          `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=winnings`
+          `${process.env.REACT_APP_API}/batch/user/${metaMaskAccountInfo.address}?status=winnings`
         );
         const data = await response.json();
         return data;
@@ -44,7 +44,7 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
       ["allArchivedBatchs"],
       async () => {
         const response = await fetch(
-          `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=all`
+          `${process.env.REACT_APP_API}/batch/user/${metaMaskAccountInfo.address}?status=all`
         );
         const data = await response.json();
         return data;
@@ -61,7 +61,7 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
     ["searchedBatchByInput", searchedBatched],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/batch/${searchedBatched}`
+        `${process.env.REACT_APP_API}/batch/${searchedBatched}`
       );
       const data = await response.json();
       if (modalText !== "Bought Tickets") {

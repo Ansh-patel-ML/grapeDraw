@@ -18,7 +18,7 @@ const ShowRewardHistory = () => {
     ["userWinningBatch"],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/batch/user/${metaMaskAccountInfo.address}?status=winnings`
+        `${process.env.REACT_APP_API}/batch/user/${metaMaskAccountInfo.address}?status=winnings`
       );
       const data = await response.json();
       return data;
@@ -32,7 +32,7 @@ const ShowRewardHistory = () => {
     ["userWinningBatchTotalTickets"],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/bid/user/${metaMaskAccountInfo.address}`
+        `${process.env.REACT_APP_API}/bid/user/${metaMaskAccountInfo.address}`
       );
       const data = await response.json();
       const ticketsAmount = data.items.reduce((acc, curr) => {

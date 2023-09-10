@@ -25,7 +25,7 @@ const Stats = ({ width }) => {
   const { data: latestCompletedBatch } = useQuery(
     ["WinningBatch"],
     async () => {
-      const response = await fetch(`http://44.203.188.29/batch`);
+      const response = await fetch(`${process.env.REACT_APP_API}/batch`);
       const data = await response.json();
       const lastestArchivedBatch = await data.items.filter((val) => {
         if (val.state === "archived") {

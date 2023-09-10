@@ -77,7 +77,7 @@ const Batch = ({
   const { data: ethPriceInUSD } = useQuery(
     ["networkData"],
     async () => {
-      const response = await fetch(`http://44.203.188.29/networkData`);
+      const response = await fetch(`${process.env.REACT_APP_API}/networkData`);
       const data = await response.json();
       return data;
     },
@@ -90,7 +90,7 @@ const Batch = ({
     ["transaction", batchInfo.id],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/bid/batch/${batchInfo.id}`
+        `${process.env.REACT_APP_API}/bid/batch/${batchInfo.id}`
       );
       const data = await response.json();
       return data;

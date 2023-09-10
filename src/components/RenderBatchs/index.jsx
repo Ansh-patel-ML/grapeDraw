@@ -8,7 +8,7 @@ const RenderBatchs = ({ batchInfo }) => {
     ["contract", batchInfo.id],
     async () => {
       const response = await fetch(
-        `http://44.203.188.29/batch/contract/${batchInfo.id}`
+        `${process.env.REACT_APP_API}/batch/contract/${batchInfo.id}`
       );
       const data = await response.json();
       return data;

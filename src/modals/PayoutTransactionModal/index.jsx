@@ -9,7 +9,9 @@ const PayoutTransactionModal = ({ closeModal, batchId }) => {
   const { data: payoutBatchInfo } = useQuery(
     ["payoutTransactionBatchInfo"],
     async () => {
-      const response = await fetch(`http://44.203.188.29/batch/${batchId}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_API}/batch/${batchId}`
+      );
       const data = await response.json();
       return data;
     },
