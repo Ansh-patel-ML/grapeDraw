@@ -94,7 +94,6 @@ const PayoutTransactionModal = ({ closeModal, batchId }) => {
                   href={`https://sepolia.etherscan.io/tx/${payoutBatchInfo?.item?.drawTxHash}`}
                   target="_blank"
                   rel="noreferrer"
-                  // style={{ fontSize: "1.5vh" }}
                 >
                   {payoutBatchInfo &&
                     payoutBatchInfo?.item?.drawTxHash.slice(0, -35)}
@@ -122,7 +121,6 @@ const PayoutTransactionModal = ({ closeModal, batchId }) => {
                   href={`https://sepolia.etherscan.io/tx/${payoutBatchInfo?.item?.drawTxHash}`}
                   target="_blank"
                   rel="noreferrer"
-                  // style={{ fontSize: "1.5vh" }}
                 >
                   {payoutBatchInfo &&
                     payoutBatchInfo?.item?.drawTxHash.slice(0, -35)}
@@ -150,7 +148,6 @@ const PayoutTransactionModal = ({ closeModal, batchId }) => {
                   href={`https://sepolia.etherscan.io/tx/${payoutBatchInfo?.item?.drawTxHash}`}
                   target="_blank"
                   rel="noreferrer"
-                  // style={{ fontSize: "1.5vh" }}
                 >
                   {payoutBatchInfo &&
                     payoutBatchInfo?.item?.drawTxHash.slice(0, -35)}
