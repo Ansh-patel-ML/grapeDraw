@@ -274,7 +274,8 @@
     flex-grow: 1;
   }
   .big {
-    font-size: 17px;
+    font-size: 15px;
+    text-align: center;
   }
   .Batch--Price--Container > div {
     justify-content: center;

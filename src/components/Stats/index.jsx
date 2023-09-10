@@ -14,10 +14,8 @@ const Stats = ({ width }) => {
 
   const [openModal, setOpenModal] = useState(false);
   const [isConnectedPopUp, setIsConnectedPopUp] = useState(false);
-  const [showRewardHistory, setShowRewardHistory] = useState(true);
   const [showStatsHistory, setShowStatsHistory] = useState(false);
   const [showConnectRewardWallet, setShowConnectRewardsWallet] = useState(true);
-  const [showConnectStatsWallet, setShowConnectStatsWallet] = useState(false);
   const [isMetaMaskNotFound, setIsMetaMaskNotFound] = useState(false);
   const [highlightButton, setHighlightButton] = useState({
     isRewardOpen: true,
@@ -66,7 +64,7 @@ const Stats = ({ width }) => {
       setHighlightButton((prev) => {
         if (prev.isStatsOpen) {
           setShowConnectRewardsWallet(true);
-          setShowConnectStatsWallet(false);
+          setShowStatsHistory(false);
           return {
             isRewardOpen: !prev.isRewardOpen,
             isStatsOpen: false,
@@ -74,10 +72,10 @@ const Stats = ({ width }) => {
         } else {
           if (prev.isRewardOpen) {
             setShowConnectRewardsWallet(false);
-            setShowConnectStatsWallet(false);
+            setShowStatsHistory(false);
           } else {
             setShowConnectRewardsWallet(true);
-            setShowConnectStatsWallet(false);
+            setShowStatsHistory(false);
           }
           return {
             ...prev,
@@ -100,7 +98,6 @@ const Stats = ({ width }) => {
         }
       });
       setShowStatsHistory(false);
-      setShowRewardHistory((prev) => !prev);
     }
   };
 
@@ -113,46 +110,21 @@ const Stats = ({ width }) => {
   };
 
   const handleStatsClicked = () => {
-    if (!metaMaskAccountInfo.address && !metaMaskAccountInfo.isConnected) {
-      setHighlightButton((prev) => {
-        if (prev.isRewardOpen) {
-          setShowConnectStatsWallet(true);
-          setShowConnectRewardsWallet(false);
-          return {
-            isRewardOpen: false,
-            isStatsOpen: !prev.isStatsOpen,
-          };
-        } else {
-          if (prev.isStatsOpen) {
-            setShowConnectStatsWallet(false);
-            setShowConnectRewardsWallet(false);
-          } else {
-            setShowConnectStatsWallet(true);
-            setShowConnectRewardsWallet(false);
-          }
-          return {
-            ...prev,
-            isStatsOpen: !prev.isStatsOpen,
-          };
-        }
-      });
-    } else {
-      setHighlightButton((prev) => {
-        if (prev.isRewardOpen) {
-          return {
-            isRewardOpen: false,
-            isStatsOpen: !prev.isStatsOpen,
-          };
-        } else {
-          return {
-            ...prev,
-            isStatsOpen: !prev.isStatsOpen,
-          };
-        }
-      });
-      setShowRewardHistory(false);
-      setShowStatsHistory((prev) => !prev);
-    }
+    setHighlightButton((prev) => {
+      if (prev.isRewardOpen) {
+        return {
+          isRewardOpen: false,
+          isStatsOpen: !prev.isStatsOpen,
+        };
+      } else {
+        return {
+          ...prev,
+          isStatsOpen: !prev.isStatsOpen,
+        };
+      }
+    });
+    setShowStatsHistory((prev) => !prev);
+    setShowConnectRewardsWallet(false);
   };
 
   return (
@@ -188,13 +160,6 @@ const Stats = ({ width }) => {
             </div>
           </div>
           <div className="Stats--Show" style={{ marginTop: "-7px" }}>
-            {!metaMaskAccountInfo.address && showConnectStatsWallet && (
-              <ConnectWallet
-                setOpenModal={handleConnectToWallet}
-                setShowConnectWallet={setShowConnectStatsWallet}
-                message={"Connect to Metamask to view your stats"}
-              />
-            )}
             {!metaMaskAccountInfo.address && showConnectRewardWallet && (
               <ConnectWallet
                 setOpenModal={handleConnectToWallet}
@@ -202,10 +167,10 @@ const Stats = ({ width }) => {
                 message={"Connect to Metamask to view your rewards"}
               />
             )}
-            {metaMaskAccountInfo.address && showRewardHistory && (
+            {metaMaskAccountInfo.address && !showStatsHistory && (
               <ShowRewardHistory />
             )}
-            {metaMaskAccountInfo.address && showStatsHistory && (
+            {showStatsHistory && (
               <ShowStats
                 isOpenInModal={false}
                 batchInfo={latestCompletedBatch}

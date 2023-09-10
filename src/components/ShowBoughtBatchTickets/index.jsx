@@ -100,7 +100,7 @@ const ShowBoughtBatchTickets = ({ closeModal, modalText }) => {
   return ReactDOM.createPortal(
     <>
       <div className="modal--wrapper"></div>
-      <div className="Bought-Connect" id="Connect">
+      <div className="Bought-Connect" id="Bought-connect--imp">
         <div className="bought--tickets--head">
           <div className="Connect--Heading">
             <h1>{modalText}</h1>

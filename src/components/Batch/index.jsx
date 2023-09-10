@@ -19,6 +19,35 @@ import InfoIcon from "../../assets/Icons/16.svg";
 import GrapeDraw from "../../contracts/GrapeDraw.json";
 import "./index.css";
 
+const tempChainInfo = {
+  BASE: {
+    chainId: "0x2105",
+    chainName: "Base Mainnet",
+    nativeCurrency: {
+      name: "ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://mainnet.base.org"],
+    blockExplorerUrls: ["https://basescan.org"],
+  },
+  SEPOLIA: {
+    chainId: "0xaa36a7",
+    chainName: "Sopolia",
+    nativeCurrency: {
+      name: "ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: [
+      "https://rpc2.sepolia.org",
+      "https://ethereum-sepolia.blockpi.network/v1/rpc/public",
+    ],
+    blockExplorerUrls: ["https://sepolia.etherscan.io/"],
+  },
+  ETHEREUM: "0x1",
+};
+
 const Batch = ({
   batchInfo,
   contractAddress,
@@ -92,20 +121,81 @@ const Batch = ({
     if (tickets < 999) SetTickets((tickets) => tickets + 1);
   };
 
-  const HandleBuyTickets = () => {
+  const HandleBuyTickets = async () => {
     if (metaMaskAccountInfo.address && metaMaskAccountInfo.isConnected) {
       setIsTransactionOngoing(true);
-      _Bid(
-        bidPrice.ethValue,
-        tickets,
-        metaMaskAccountInfo.address,
-        metaMaskAccountInfo.web3,
-        contractInstance,
-        setIsTransactionOngoing,
-        setTransactionStatusPopUp,
-        setTransactionErrorModal,
-        SetTickets
-      );
+      const provider = window.ethereum;
+      const chainId = await provider.request({ method: "eth_chainId" });
+      const getCurrentBatchChainId = tempChainInfo[batchChain]["chainId"];
+      if (chainId !== getCurrentBatchChainId) {
+        try {
+          await provider.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: getCurrentBatchChainId }],
+          });
+          await _Bid(
+            bidPriceInWei / 10 ** 18,
+            tickets,
+            metaMaskAccountInfo.address,
+            metaMaskAccountInfo.web3,
+            contractInstance,
+            setIsTransactionOngoing,
+            setTransactionStatusPopUp,
+            setTransactionErrorModal,
+            SetTickets
+          );
+        } catch (error) {
+          if (error.code === 4902) {
+            try {
+              const getCurrentBatchChainId = tempChainInfo[batchChain];
+              await provider.request({
+                method: "wallet_addEthereumChain",
+                params: [
+                  {
+                    chainId: getCurrentBatchChainId["chainId"],
+                    chainName: getCurrentBatchChainId["chainName"],
+                    rpcUrls: getCurrentBatchChainId["rpcUrls"],
+                    blockExplorerUrls:
+                      getCurrentBatchChainId["blockExplorerUrls"],
+                    nativeCurrency: {
+                      symbol:
+                        getCurrentBatchChainId["nativeCurrency"]["symbol"],
+                      decimals: 18,
+                    },
+                  },
+                ],
+              });
+              await _Bid(
+                bidPriceInWei / 10 ** 18,
+                tickets,
+                metaMaskAccountInfo.address,
+                metaMaskAccountInfo.web3,
+                contractInstance,
+                setIsTransactionOngoing,
+                setTransactionStatusPopUp,
+                setTransactionErrorModal,
+                SetTickets
+              );
+            } catch (addError) {
+              setIsTransactionOngoing(false);
+            }
+          } else {
+            setIsTransactionOngoing(false);
+          }
+        }
+      } else {
+        _Bid(
+          bidPriceInWei / 10 ** 18,
+          tickets,
+          metaMaskAccountInfo.address,
+          metaMaskAccountInfo.web3,
+          contractInstance,
+          setIsTransactionOngoing,
+          setTransactionStatusPopUp,
+          setTransactionErrorModal,
+          SetTickets
+        );
+      }
     } else {
       if (window.ethereum) {
         setOpenModal(true);
@@ -148,7 +238,6 @@ const Batch = ({
   };
 
   const handleCustomAddTickets = (e) => {
-    console.log("222222222", e);
     SetTickets((prev) => {
       if (e.target.value === "") {
         return 1;
@@ -445,7 +534,6 @@ const Batch = ({
                 alt=""
                 onClick={HandleRemoveTicket}
               />
-              {/* <h4>{tickets}</h4> */}
               <input
                 type="text"
                 value={tickets}
